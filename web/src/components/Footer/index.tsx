@@ -5,6 +5,18 @@ import { AiFillFacebook } from "react-icons/ai";
 import { BsInstagram } from "react-icons/bs";
 
 export const Footer = () => {
+  const redirLinkedin = () =>{
+    window.location.assign('https://linkedin.com/')
+  }
+  const redirYoutube = () =>{
+    window.location.assign('https://youtube.com/')
+  }
+  const redirFacebook = () =>{
+    window.location.assign('https://facebook.com/')
+  }
+  const redirInstagram = () =>{
+    window.location.assign('https://linkedin.com/')
+  }
   return (
     <div className="bg-[#046865] w-full">
       <div className="block text-center">
@@ -44,22 +56,22 @@ export const Footer = () => {
       <Grid container className="pb-6">
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <BsLinkedin className="text-white hover:text-[#a18276] text-6xl mt-2" />
+            <BsLinkedin className="text-white hover:text-[#a18276] text-6xl mt-2" onClick={redirLinkedin} />
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <AiFillYoutube className="text-white hover:text-[#a18276] text-7xl" />
+            <AiFillYoutube className="text-white hover:text-[#a18276] text-7xl"  onClick={redirYoutube}/>
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <AiFillFacebook className="text-white hover:text-[#a18276] text-7xl" />
+            <AiFillFacebook className="text-white hover:text-[#a18276] text-7xl" onClick={redirFacebook} />
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <BsInstagram className="text-white hover:text-[#a18276] text-6xl mt-2" />
+            <BsInstagram className="text-white hover:text-[#a18276] text-6xl mt-2" onClick={redirInstagram} />
           </div>
         </Grid>
       </Grid>
