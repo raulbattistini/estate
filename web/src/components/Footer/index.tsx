@@ -1,22 +1,26 @@
+import {useState} from 'react';
+import { Formik, Form } from "formik";
 import { Grid } from "@mui/material";
 import { AiFillYoutube } from "react-icons/ai";
 import { BsLinkedin } from "react-icons/bs";
 import { AiFillFacebook } from "react-icons/ai";
 import { BsInstagram } from "react-icons/bs";
+import { newsletterSchema } from "../../helpers/schema";
 
 export const Footer = () => {
-  const redirLinkedin = () =>{
-    window.location.assign('https://linkedin.com/')
-  }
-  const redirYoutube = () =>{
-    window.location.assign('https://youtube.com/')
-  }
-  const redirFacebook = () =>{
-    window.location.assign('https://facebook.com/')
-  }
-  const redirInstagram = () =>{
-    window.location.assign('https://linkedin.com/')
-  }
+  const [emailNotification, setEmailNotification] = useState('');
+  const redirLinkedin = () => {
+    window.location.assign("https://linkedin.com/");
+  };
+  const redirYoutube = () => {
+    window.location.assign("https://youtube.com/");
+  };
+  const redirFacebook = () => {
+    window.location.assign("https://facebook.com/");
+  };
+  const redirInstagram = () => {
+    window.location.assign("https://linkedin.com/");
+  };
   return (
     <div className="bg-[#046865] w-full">
       <div className="block text-center">
@@ -24,15 +28,39 @@ export const Footer = () => {
           {" "}
           Want to know the current value of your home?
         </span>
-        <input
-          type="text"
-          className="w-60 p-2 rounded-sm mt-3 outline-0"
-          placeholder="Type your email"
-        />
-        <button className="bg-[#a18276] ml-5 rounded-sm p-2 text-white">
-          {" "}
-          Check it{" "}
-        </button>
+        <Formik
+          initialValues={{
+            emailNotification: "",
+          }}
+          onSubmit={(values)=>{setEmailNotification(values.emailNotification)}}
+          validationSchema={newsletterSchema}
+        >
+          {({ values, errors, touched, handleChange }) => {
+            return (
+              <Form>
+                <input
+                  type="text"
+                  className="w-60 p-2 rounded-sm mt-3 outline-0"
+                  placeholder="Type your email"
+                  value={values.emailNotification}
+                  name="emailNotification"
+                  onChange={handleChange}
+                />
+                <button
+                  className="bg-[#a18276] ml-5 rounded-sm p-2 text-white"
+                  type="submit"
+                >
+                  {" "}
+                  Check it{" "}
+                </button>
+                <span className="text-red-300 mt-2 text-center flex flex-col font-inter">
+                  {!!touched.emailNotification && errors.emailNotification}
+                  {touched.emailNotification && !!errors.emailNotification}
+                </span>
+              </Form>
+            );
+          }}
+        </Formik>
       </div>
       <div className="pt-5 self-center">
         <span className="flex justify-center text-white text-3xl">
@@ -56,22 +84,34 @@ export const Footer = () => {
       <Grid container className="pb-6">
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <BsLinkedin className="text-white hover:text-[#a18276] text-6xl mt-2" onClick={redirLinkedin} />
+            <BsLinkedin
+              className="text-white hover:text-[#a18276] text-6xl mt-2"
+              onClick={redirLinkedin}
+            />
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <AiFillYoutube className="text-white hover:text-[#a18276] text-7xl"  onClick={redirYoutube}/>
+            <AiFillYoutube
+              className="text-white hover:text-[#a18276] text-7xl"
+              onClick={redirYoutube}
+            />
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <AiFillFacebook className="text-white hover:text-[#a18276] text-7xl" onClick={redirFacebook} />
+            <AiFillFacebook
+              className="text-white hover:text-[#a18276] text-7xl"
+              onClick={redirFacebook}
+            />
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className="flex justify-center self-center items-center text-center">
-            <BsInstagram className="text-white hover:text-[#a18276] text-6xl mt-2" onClick={redirInstagram} />
+            <BsInstagram
+              className="text-white hover:text-[#a18276] text-6xl mt-2"
+              onClick={redirInstagram}
+            />
           </div>
         </Grid>
       </Grid>

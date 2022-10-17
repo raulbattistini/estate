@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export const Header = () => {
   return (
     <div className="bg-[#046865] text-white text-3xl p-3">
-      <h1 className="hover:text-[#21a0a0] text-center">
+      <h1 className="hover:text-[#21a0a0] text-center" title="We are a real estate agency based in Orlando, FL.">
         FL;RE - A Real Estate Website{" "}
       </h1>
 
@@ -28,7 +28,7 @@ export const Header = () => {
           </Link>{" "}
         </Grid>
         <Grid item xs={2}>
-          <Link to="/register" className="hover:text-[#a18276]">
+          <Link to="/register-user" className="hover:text-[#a18276]">
             {" "}
             <div className="flex justify-center cursor-pointer text-lg">
               {" "}
