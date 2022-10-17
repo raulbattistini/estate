@@ -3,8 +3,8 @@ import * as yup from "yup";
 export const newsletterSchema = yup.object().shape({
   emailNotification: yup
     .string()
-    .email("Insira um email válido.")
-    .required("Para se inscrever, insira seu email."),
+    .email("Insert a valid email.")
+    .required("Type your email to get informed."),
 });
 
 export const registerUserFirst = yup.object().shape({
