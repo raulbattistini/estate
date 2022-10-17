@@ -1,118 +1,139 @@
 import { Formik, Form } from "formik";
-import { useContext } from "react";
+import { useState, useEffect, useRef, CSSProperties } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { useLoginMutation } from "../../feats/Auth/authApiSlice";
 
 export const Login = () => {
-  const auth = useContext(AuthContext);
+  // usestate
+  let [color, setColor] = useState("#ffffff");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
+  // useeffect
+  useEffect(() => {
+    emailRef!.current!.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [email, password]);
+
+  // useref
+  const errorRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
+
+  // lib hooks
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
 
-  const handleLogin = async (email: string, password: string) => {
+  // functions
+  const handleSubmit = async (e: HTMLFormElement) => {
+    e.preventDefault();
+
     try {
-      if (email && password) {
-        const isLogged = await auth.signin(email, password);
-        console.log(isLogged);
-        if (isLogged) {
-          toast.success(`Welcome!`);
-          navigate("/welcome");
-        } else {
-          navigate("/login");
-        }
-      }
     } catch (error: any) {
-      toast.error(`Something wrong occurred: ${error.message}`);
-    } 
+      if (!error?.originalStatus) {
+        setErrorMessage("No server response");
+        toast.error(`Something wrong occurred: ${error.message} || ${errorMessage}`);
+      } else if (error.originalStatus === 400) {
+        setErrorMessage("Fill in the whole body");
+        toast.error(`Something wrong occurred: ${error.message} || ${errorMessage}`);
+      } else if (error.originalStatus === 401) {
+        setErrorMessage("Unauthorized");
+        toast.error(`Something wrong occurred: ${error.message} || ${errorMessage}`);
+      } else {
+        setErrorMessage("Login failed");
+        toast.error(`Something wrong occurred: ${error.message} || ${errorMessage}`);
+      }
+    }
   };
-  return (
-    <div className="w-full">
-      <Header />
 
-      <div className="bg-[#21a0a0] flex flex-col text-center pb-5">
-        <h1 className="text-2xl text-white pt-3">Login to see your account</h1>
+  const handleChangeEmail = (e: React.BaseSyntheticEvent) => {
+    setEmail(e.currentTarget.value);
+  };
+  const handleChangePassword = (e: React.BaseSyntheticEvent) => {
+    setPassword(e.currentTarget.value);
+  };
 
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          onSubmit={(values) => {
-            handleLogin(values.email, values.password);
-            console.log(values);
-          }}
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  };
+
+  const content = isLoading ? (
+    <ClipLoader color={color} cssOverride={override} size={150} />
+  ) : (
+    <>
+      <div className="w-full">
+        <Header />
+        <p 
+        ref={errorRef} 
+        className={errorMessage ? "errmsg" : "offscreen"} 
+        aria-live="assertive"
         >
-          {({ values, errors, touched, handleChange }) => {
-            return (
-              <Form>
-                <>
-                  <label className="pt-3 text-white justify-center flex self-center">
-                    Email
-                  </label>
-                  <input
-                    className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
-                    type="email"
-                    placeholder="Insert your email..."
-                    value={values.email}
-                    onChange={handleChange}
-                    name="email"
-                  />
+          {errorMessage}
+        </p>
+        <div className="bg-[#21a0a0] flex flex-col text-center pb-5">
+          <h1 className="text-2xl text-white pt-3">Login to see your account</h1>
 
-                  <span className="text-red-300 mt-2 text-center flex flex-col">
-                    <>
-                      {!!touched.email && errors.email}
-                      {touched.email && !!errors.email}
-                    </>
-                  </span>
-                  <label className="pt-3 text-white justify-center flex self-center">
-                    Password
-                  </label>
-                  <input
-                    className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
-                    type="password"
-                    placeholder="Insert your password..."
-                    value={values.password}
-                    onChange={handleChange}
-                    name="password"
-                  />
+          <>
+            <form
+              onSubmit={() => {
+                handleSubmit;
+              }}
+            >
+              <label className="pt-3 text-white justify-center flex self-center">Email</label>
+              <input
+                ref={emailRef}
+                className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
+                type="email"
+                placeholder="Insert your email..."
+                value={email}
+                onChange={handleChangeEmail}
+                name="email"
+              />
+              <label className="pt-3 text-white justify-center flex self-center">Password</label>
+              <input
+                className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
+                type="password"
+                placeholder="Insert your password..."
+                value={password}
+                onChange={handleChangePassword}
+                name="password"
+              />
 
-                  <span className="text-red-300 mt-2 text-center flex flex-col">
-                    <>
-                      {" "}
-                      {!!touched.password && errors.password}
-                      {touched.password && !!errors.password}
-                    </>
-                  </span>
-                </>
-                <span className="flex flex-col text-white pt-3">
-                  <Link
-                    to="/forgot-password"
-                    className="text-center text-purple-200"
-                  >
-                    Forgot your password?
-                  </Link>
-                </span>
-                <span className="flex flex-col text-white pt-3">
-                  Don't have an account?
-                  <Link to="/login" className="text-center text-green-200">
-                    Register now
-                  </Link>
-                </span>
-                <button
-                  type="submit"
-                  className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500"
-                >
-                  Login
-                </button>
-              </Form>
-            );
-          }}
-        </Formik>
+              <span className="flex flex-col text-white pt-3">
+                <Link to="/forgot-password" className="text-center text-purple-200">
+                  Forgot your password?
+                </Link>
+              </span>
+              <span className="flex flex-col text-white pt-3">
+                Don't have an account?
+                <Link to="/login" className="text-center text-green-200">
+                  Register now
+                </Link>
+              </span>
+              <button
+                type="submit"
+                className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500"
+              >
+                Login
+              </button>
+            </form>{" "}
+          </>
+        </div>
+
+        <Footer />
       </div>
-
-      <Footer />
-    </div>
+    </>
   );
+  return content;
 };
