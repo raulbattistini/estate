@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { IAction, IContext, IState, RegisterAction, IRegisterProps } from "../interfaces";
+import { IAction, IContext, IState, RegisterAction, IRegisterProps } from "../../interfaces";
 
 const initialData: IState = {
   currentStep: 0,
