@@ -1,6 +1,11 @@
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { JSXElementConstructor, Key, ReactElement, ReactNode } from "react";
 
+export interface IAuthContext {
+    user: IUserAuth | null;
+    signin: (email: string, password: string) => Promise<boolean>;
+    signout: () => void;
+}
 export interface IState {
   currentStep: number;
   name: string;
@@ -64,8 +69,8 @@ export interface IFinalValues {
 }
 
 export interface IAuth {
-  user: string;
-  token: string;
+  user: string | null;
+  token: string | null;
 }
 
 export interface IUserAuth {
