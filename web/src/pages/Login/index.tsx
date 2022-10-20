@@ -1,7 +1,7 @@
 import { Formik, Form } from "formik";
 import { useState, useEffect, useRef, CSSProperties, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ClipLoader from "react-spinners/ClipLoader";
+// import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
