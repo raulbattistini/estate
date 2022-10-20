@@ -99,7 +99,7 @@ export const Login = () => {
                     </span>
                     <span className="flex flex-col text-white pt-3">
                       Don't have an account?
-                      <Link to="/login" className="text-center text-green-200">
+                      <Link to="/register-user" className="text-center text-green-200">
                         Register now
                       </Link>
                     </span>
