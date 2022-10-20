@@ -4,7 +4,6 @@ import { NotFound } from "./pages/NotFound";
 import { Blog } from "./pages/Blog";
 import { Login } from "./pages/Login";
 import { RegisterUser } from "./pages/RegisterUser/FirstStep";
-import { RegisterProperty } from "./pages/RegisterProperty";
 import { Buy } from "./pages/Buy";
 import { Sell } from "./pages/Sell";
 import { Rent } from "./pages/Rent";
@@ -34,19 +33,9 @@ export const RoutesList = () => {
           }
         />
         <Route
-          path="/register-property"
-          element={
-            <RequireAuth>
-              <RegisterProperty />
-            </RequireAuth>
-          }
-        />
-        <Route
           path="/buy"
           element={
-            <RequireAuth>
               <Buy />
-            </RequireAuth>
           }
         />
         <Route
