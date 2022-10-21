@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { PrimaryGeneratedColumn, Column, CreateDateColumn, Entity } from "typeorm";
 
 @Entity()
@@ -17,6 +18,8 @@ export class User {
   @Column()
   password: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    default: dayjs()
+ })
   created_at?: Date;
 }

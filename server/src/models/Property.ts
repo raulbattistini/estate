@@ -1,4 +1,5 @@
 import { PrimaryGeneratedColumn, Column, CreateDateColumn, Entity, OneToOne, } from "typeorm";
+import dayjs from "dayjs";
 import { Image } from "./Image";
 import { User } from "./User";
 
@@ -11,7 +12,9 @@ export class Property {
   @Column()
   name: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    default: dayjs()
+ })
   inclusion_date: Date
 
   @OneToOne(() => User, (user) => user.email)

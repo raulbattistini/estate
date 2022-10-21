@@ -1,5 +1,5 @@
 import { PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
-
+import dayjs from 'dayjs';
 
 export class Mail {
    @PrimaryGeneratedColumn()
@@ -11,6 +11,8 @@ export class Mail {
    @Column()
    description: string;
  
-   @CreateDateColumn()
+   @CreateDateColumn({
+      default: dayjs()
+   })
    created_at: Date;
 }
