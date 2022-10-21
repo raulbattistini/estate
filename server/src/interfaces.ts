@@ -10,3 +10,10 @@ export interface IUserRequest {
    password: string;
    created_at: Date
  }
+
+export interface ISendService {
+   to: string,
+   subject: string,
+   variables: object,
+   path: string
+}
