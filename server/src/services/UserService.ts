@@ -3,6 +3,8 @@ import { sign } from "jsonwebtoken";
 import { IUserAuth, IUserRequest } from "../interfaces";
 import { userRepository } from "../repositories";
 import { instanceToPlain } from "class-transformer";
+import { passwordCompareSync } from "../helpers/compareSync";
+import { generateUUID } from "../helpers/generateUUID";
 
 export class UserService {
 
@@ -15,9 +17,9 @@ export class UserService {
       throw new Error("Email/Password incorrect");
     }
 
-    const passwordMatch = await compare(password, user.password);
+    passwordCompareSync(password, user.password);
 
-    if (!passwordMatch) {
+    if (!passwordCompareSync) {
       throw new Error("Email/Password incorrect. Check your credentials and try again.");
     }
 
@@ -60,6 +62,7 @@ export class UserService {
     const passwordHash = await hash(password, 12);
 
     const user = userRepository.create({
+      id: generateUUID(),
       name,
       email,
       admin,
