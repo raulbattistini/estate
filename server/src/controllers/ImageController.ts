@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { imageRepository } from "../repositories";
 
-export class PhotoController {
+export class ImageController {
   async upload(req: Request, res: Response, next: NextFunction) {
     try {
       const duplicate = await imageRepository.findOne({
