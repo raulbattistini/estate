@@ -46,9 +46,9 @@ export class UserService {
   }
 
 
-  async createUser({ name, email, admin = false, password, created_at }: IUserRequest) {
+  async createUser({ name, email, admin = false, password, intention, income, created_at }: IUserRequest) {
     if (!email) {
-      throw new Error("Email incorrect");
+      throw new Error("Invalid body. Insert an email");
     }
 
     const userAlreadyExists = await userRepository.findOneBy({
@@ -61,12 +61,14 @@ export class UserService {
 
     const passwordHash = await hash(password, 12);
 
-    const user = userRepository.create({
+    const user = await userRepository.create({
       id: generateUUID(),
       name,
       email,
       admin,
       password: passwordHash,
+      intention,
+      income,
       created_at
     });
 
