@@ -18,8 +18,14 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  intention?: string
+
+  @Column()
+  income?: string
+
   @CreateDateColumn({
     default: dayjs()
  })
-  created_at?: Date;
+  created_at: Date;
 }
