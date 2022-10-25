@@ -30,7 +30,7 @@ export const Login = () => {
         console.log(isLogged);
         if (isLogged) {
           toast.success(`Welcome ${auth!.user}`);
-          navigate("/available-properties");
+          navigate("/sell");
         } else {
           navigate("/login");
         }

@@ -75,11 +75,13 @@ export interface IAuth {
 }
 
 export interface IUserAuth {
-  auth: IAuth;
-  id_user: number;
+  id: string;
+  admin?: boolean;
   email: string;
-  active: boolean;
-  date_register: Date;
+  password: string;
+  intention?: string
+  income?: string
+  created_at: Date;
 }
 
 export interface IAuthChildren {

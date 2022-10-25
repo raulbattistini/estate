@@ -2,12 +2,12 @@ import { api } from "../services/api";
 
 export const useApi = () => ({
   validateToken: async (token: string) => {
-    const res = await api.post("/api/tokens", { token });
+    const res = await api.post("/tokens", { token });
     return res.data;
   },
 
   signin: async (email: string, password: string) => {
-    const res = await api.post("/api/tokens", {
+    const res = await api.post("/tokens", {
       email,
       password,
     });
@@ -15,7 +15,7 @@ export const useApi = () => ({
   },
 
   logout: async () => {
-    const res = await api.post("/api");
+    const res = await api.post("/tokens");
     return res.data;
   }
 });
