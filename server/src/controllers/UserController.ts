@@ -5,7 +5,7 @@ import { UserService } from "../services/UserService";
 export class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, email, admin, password, created_at } = req.body;
+      const { name, email, admin, password, intention, income, created_at } = req.body;
 
       const userService = new UserService();
 
@@ -14,6 +14,8 @@ export class UserController {
         email,
         admin,
         password,
+        intention,
+        income,
         created_at,
       });
 
@@ -23,7 +25,7 @@ export class UserController {
          message: `Invalid body for user.`
       });
       return res.status(201).json({
-         message: `Created user with body: ${user}`
+         message: `Created user with body`, user
       });
       
     } catch (error) {
