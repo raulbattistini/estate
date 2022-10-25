@@ -6,8 +6,9 @@ export const Checkbox = ({ obj }: IObj) => {
       <input
         type="checkbox"
         id={`custom-checkbox-${obj!.index}`}
-        name={obj.name}
+        name="intention"
         className="text-white rounded-md pl-2 checkbox justify-between flex"
+        value={obj.name}
       />
   ⠀{obj.name}
     </>

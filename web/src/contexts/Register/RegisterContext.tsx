@@ -8,7 +8,7 @@ const initialData: IState = {
   confirmEmail: "",
   password: "",
   confirmPassword: "",
-  intention: "",
+  intention: [],
   income: "",
 };
 

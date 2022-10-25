@@ -3,39 +3,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Grid, MenuItem, Select } from "@mui/material";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
-import { Checkbox } from "../../../components/Checkbox";
-import { registerUserFirst } from "../../../helpers/schema";
-import {
-  IData,
-  IState,
-  RegisterAction,
-  IFinalValues,
-} from "../../../interfaces";
+import { IData, IState, RegisterAction, IFinalValues } from "../../../interfaces";
 import { useRegister } from "../../../contexts/Register/RegisterContext";
 import { api } from "../../../services/api";
 import { generateUUID } from "../../../helpers/generateUUID";
-
-const IntentionCheckbox: IData[] = [
-  {
-    order: 0,
-    name: "Sell",
-  },
-  {
-    order: 1,
-    name: "Buy",
-  },
-  {
-    order: 2,
-    name: "Rent",
-  },
-  {
-    order: 3,
-    name: "Just looking",
-  },
-];
 
 export const RegisterUserSec = () => {
   const navigate = useNavigate();
@@ -60,13 +34,10 @@ export const RegisterUserSec = () => {
       type: RegisterAction.setCurrentStep,
       payload: 1,
     });
+    console.log(state);
   }, []);
 
-  const [data, setData] = useState(
-    IntentionCheckbox.sort((a, b) => a.order - b.order)
-  );
-
-  const handleNextStep = (intention: string, income?: string) => {
+  const handleNextStep = (intention: string[], income?: string) => {
     dispatch({
       type: RegisterAction.setIntention,
       payload: intention,
@@ -89,6 +60,7 @@ export const RegisterUserSec = () => {
     };
     try {
       const res = await api.post("/users", addRegister);
+      toast.success(res.data.message);
     } catch (error: any) {
       toast.error(error.res.data.message, {
         position: "top-right",
@@ -100,6 +72,8 @@ export const RegisterUserSec = () => {
         progress: undefined,
       });
       navigate("/login");
+    } finally {
+      console.log("State is: ", state, "Values are: ", values);
     }
   };
 
@@ -110,38 +84,42 @@ export const RegisterUserSec = () => {
         <Grid item xs={12}>
           <Formik
             initialValues={{
-              intention: "",
+              intention: [],
               income: "",
             }}
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
               handleNextStep(values.intention, values.income);
               handleSubmit(state, values);
+              console.log(values.intention);
             }}
-            validationSchema={registerUserFirst}
           >
             {({ values, errors, handleChange, touched }) => {
               return (
                 <Form>
                   <div className="flex flex-col items-center">
-                    <label className="pt-3 text-white">
+                    <label className="pt-3 text-white"></label>
+
+                    <div id="checkbox-group" className="pt-3 text-white">
                       What you intend to do at first?
-                    </label>
-                    <ul>
-                      {data.map((obj, index) => (
-                        <li
-                          key={index}
-                          className="text-white flex place-items-center rounded-md"
-                        >
-                          <Checkbox obj={obj} onChange={handleChange} />
-                        </li>
-                      ))}
-                    </ul>
+                    </div>
+                    <div role="group" aria-labelledby="checkbox-group" className="flex flex-col text-white">
+                      <label>
+                        <Field type="checkbox" name="intention" value="buy" />⠀ Buy
+                      </label>
+                      <label>
+                        <Field type="checkbox" name="intention" value="sell" />⠀ Sell
+                      </label>
+                      <label>
+                        <Field type="checkbox" name="intention" value="rent" />⠀ Rent
+                      </label>
+                      <label>
+                        <Field type="checkbox" name="intention" value="just-looking" />⠀ Just Looking
+                      </label>
+                    </div>
 
                     <label className="pt-3 text-white pb-3">
-                      What is your annual income(US$)? If you don't want to
-                      answer, leave it blank <br />
-                      We use this info to show you the best deals based on your
-                      declared income.
+                      What is your annual income(US$)? If you don't want to answer, leave it blank <br />
+                      We use this info to show you the best deals based on your declared income.
                     </label>
                     <Select
                       labelId="demo-simple-select-required-label"
@@ -158,24 +136,12 @@ export const RegisterUserSec = () => {
                         <em>Select...</em>
                       </MenuItem>
                       <MenuItem value={"up-to-25000"}>Up to 25k/ year</MenuItem>
-                      <MenuItem value={"25001-40000"}>
-                        25.001 to 40.000k/ year
-                      </MenuItem>
-                      <MenuItem value={"40001-65000"}>
-                        40.001 to 65.000k/ year
-                      </MenuItem>
-                      <MenuItem value={"60001-85000"}>
-                        60.001 to 85.000k/ year
-                      </MenuItem>
-                      <MenuItem value={"85001-100000"}>
-                        85.001 to 100.000k/ year
-                      </MenuItem>
-                      <MenuItem value={"100001-1250000"}>
-                        100.001 to 125.000k/ year
-                      </MenuItem>
-                      <MenuItem value={"40001-65000"}>
-                        Prefer not to answer
-                      </MenuItem>
+                      <MenuItem value={"25001-40000"}>25.001 to 40.000k/ year</MenuItem>
+                      <MenuItem value={"40001-65000"}>40.001 to 65.000k/ year</MenuItem>
+                      <MenuItem value={"60001-85000"}>60.001 to 85.000k/ year</MenuItem>
+                      <MenuItem value={"85001-100000"}>85.001 to 100.000k/ year</MenuItem>
+                      <MenuItem value={"100001-1250000"}>100.001 to 125.000k/ year</MenuItem>
+                      <MenuItem value={"40001-65000"}>Prefer not to answer</MenuItem>
                     </Select>
                     <span className="flex flex-col text-white pt-3">
                       Already have an account?
@@ -183,10 +149,7 @@ export const RegisterUserSec = () => {
                         Login instead
                       </Link>
                     </span>
-                    <button
-                      type="submit"
-                      className="p-3 mt-5 rounded-md bg-[#048865] text-white hover:bg-green-500"
-                    >
+                    <button type="submit" className="p-3 mt-5 rounded-md bg-[#048865] text-white hover:bg-green-500">
                       Create Profile
                     </button>
                   </div>{" "}
