@@ -13,7 +13,7 @@ export interface IState {
   confirmEmail: string;
   password: string;
   confirmPassword: string;
-  intention: string;
+  intention: string[];
   income: string | null;
 }
 
@@ -49,6 +49,7 @@ export interface IData {
   order: number;
   checked?: boolean;
   index?: number;
+  value: string
 }
 
 export interface IObj {
@@ -64,7 +65,7 @@ export interface IObj {
 }
 
 export interface IFinalValues {
-  intention: string;
+  intention: string[];
   income?: string;
 }
 
