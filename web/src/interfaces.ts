@@ -2,9 +2,9 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { JSXElementConstructor, Key, ReactElement, ReactNode } from "react";
 
 export interface IAuthContext {
-    user: IUserAuth | null;
-    signin: (email: string, password: string) => Promise<boolean>;
-    signout: () => void;
+  user: IUserAuth | null;
+  signin: (email: string, password: string) => Promise<boolean>;
+  signout: () => void;
 }
 export interface IState {
   currentStep: number;
@@ -49,16 +49,14 @@ export interface IData {
   order: number;
   checked?: boolean;
   index?: number;
-  value: string
+  value: string;
 }
 
 export interface IObj {
   obj: IData;
   onChange: {
     (e: React.ChangeEvent<any>): void;
-    <T = string | React.ChangeEvent<any>>(
-      field: T
-    ): T extends React.ChangeEvent<any>
+    <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any>
       ? void
       : (e: string | React.ChangeEvent<any>) => void;
   };
@@ -75,52 +73,31 @@ export interface IAuth {
 }
 
 export interface IUserAuth {
-  id: string;
-  admin?: boolean;
+  name: string;
   email: string;
   password: string;
-  intention?: string
-  income?: string
-  created_at: Date;
+  intention?: string;
+  income?: string;
 }
 
 export interface IAuthChildren {
   children: JSX.Element | ReactElement;
 }
 
-interface IToken {
-  auth: string
-}
-
-export interface IGetState {
-  getState: () => any | unknown | IToken,
-}
-
-export interface BaseQueryApi {
-  signal: AbortSignal;
-  dispatch: ThunkDispatch<any, any, any>;
-  getState: () => unknown | any;
-  extra: unknown;
-  endpoint: string;
-  type: 'query' | 'mutation';
-  /**
-   * Only available for queries: indicates if a query has been forced,
-   * i.e. it would have been fetched even if there would already be a cache entry
-   * (this does not mean that there is already a cache entry though!)
-   *
-   * This can be used to for example add a `Cache-Control: no-cache` header for
-   * invalidated queries.
-   */
-  forced?: boolean;
-}
-
 export interface IProperty {
-  estate_id: string,
-  name: string,
-  inclusion_date: Date,
-  user_poster: string,
-  value: number,
-  isSold?: boolean,
-  isRented?: boolean,
-  media: string[]
+  estate_id: string;
+  name: string;
+  inclusion_date: Date;
+  user_poster: string;
+  value: number;
+  isSold?: boolean;
+  isRented?: boolean;
+  media: string[];
+}
+
+export interface IPost {
+  post_id: string
+  title: string
+  content: string
+  created_at: Date
 }
