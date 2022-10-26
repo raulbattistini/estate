@@ -32,6 +32,8 @@ routes.post("/api/users", userController.create);
 
 routes.get("/api/users/", userController.listUsers);
 
+routes.get("/api/users/:id", userController.findById);
+
 routes.post("/api/tokens", userController.authenticate);
 
 routes.get("/api/images", imageController.read);

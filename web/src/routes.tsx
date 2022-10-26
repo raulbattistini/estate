@@ -35,7 +35,9 @@ export const RoutesList = () => {
         <Route
           path="/buy"
           element={
+            <RequireAuth>
               <Buy />
+            </RequireAuth>
           }
         />
         <Route
