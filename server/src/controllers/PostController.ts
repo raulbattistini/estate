@@ -13,7 +13,7 @@ export class PostController {
           message: `There were no posts found.`,
         });
       return res.status(200).json({
-        message: 'Found:', posts
+        posts
       });
     } catch (error) {
       return next(error);
