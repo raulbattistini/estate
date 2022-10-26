@@ -29,8 +29,8 @@ export const Login = () => {
         const isLogged = await auth.signin(email, password);
         console.log(isLogged);
         if (isLogged) {
-          toast.success(`Welcome ${auth!.user}`);
-          navigate("/sell");
+          toast.success(`Welcome ${auth.user?.name}`);
+          navigate("/welcome");
         } else {
           navigate("/login");
         }

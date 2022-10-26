@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     useEffect(() => {
         const validateToken = async () => {
-            const storageData = localStorage.getItem('authToken');
+            const storageData = localStorage.getItem('token');
             if (storageData) {
                 const data = await api.validateToken(storageData);
                 if (data.user) {
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     const signin = async (email: string, password: string) => {
         const data = await api.signin(email, password);
-        if (data.user && data.hash) {
+        if (data.hash) {
             setUser(data.user);
             setToken(data.hash);
             return true;
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const setToken = (token: string) => {
-        localStorage.setItem('authToken', token);
+        localStorage.setItem('token', token);
     }
 
     return (

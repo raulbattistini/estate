@@ -1,4 +1,4 @@
-import { compare, hash } from "bcryptjs";
+import { hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { IUserAuth, IUserRequest } from "../interfaces";
 import { userRepository } from "../repositories";
@@ -7,7 +7,6 @@ import { passwordCompareSync } from "../helpers/compareSync";
 import { generateUUID } from "../helpers/generateUUID";
 
 export class UserService {
-
   async authenticateUser({ email, password }: IUserAuth) {
     const user = await userRepository.findOneBy({
       email,
@@ -37,15 +36,11 @@ export class UserService {
     return token;
   }
 
-
-
   async getUsers() {
     const users = await userRepository.find();
 
     return instanceToPlain(users);
   }
-
-
   async createUser({ name, email, admin = false, password, intention, income, created_at }: IUserRequest) {
     if (!email) {
       throw new Error("Invalid body. Insert an email");
@@ -69,7 +64,7 @@ export class UserService {
       password: passwordHash,
       intention,
       income,
-      created_at
+      created_at,
     });
 
     await userRepository.save(user);
