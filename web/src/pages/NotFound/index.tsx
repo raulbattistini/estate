@@ -1,9 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { BiBuoy } from "react-icons/bi";
-import { GiBuoy } from "react-icons/gi";
 import { Grid } from "@mui/material";
-import { GiAtSea } from "react-icons/gi";
 
 export const NotFound = () => {
   return (
@@ -19,7 +16,7 @@ export const NotFound = () => {
         <h3 className="text-white">
           Ooof! We found you! Accept this help and{" "}
         </h3>
-        <Link to="/" className="text-white flex flex-col hover:text-[#a18276]">
+        <Link to="/" className="text-white flex flex-col hover:text-[#a18276] underline">
           go back to home page
         </Link>
       </div>

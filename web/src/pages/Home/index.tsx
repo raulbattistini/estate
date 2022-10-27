@@ -1,4 +1,3 @@
-import { Grid } from "@mui/material";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AiOutlineSearch } from "react-icons/ai";

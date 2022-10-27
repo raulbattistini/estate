@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Grid, MenuItem, Select } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
-import { IData, IState, RegisterAction, IFinalValues } from "../../../interfaces";
+import { IState, RegisterAction, IFinalValues } from "../../../interfaces";
 import { useRegister } from "../../../contexts/Register/RegisterContext";
 import { api } from "../../../services/api";
 import { generateUUID } from "../../../helpers/generateUUID";
@@ -60,20 +59,9 @@ export const RegisterUserSec = () => {
     };
     try {
       const res = await api.post("/users", addRegister);
-      toast.success(res.data.message);
+      //  toast.success(res.data.message);
     } catch (error: any) {
-      toast.error(error.res.data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
       navigate("/login");
-    } finally {
-      console.log("State is: ", state, "Values are: ", values);
     }
   };
 

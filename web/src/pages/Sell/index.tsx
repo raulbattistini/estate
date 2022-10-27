@@ -1,7 +1,12 @@
-import React from 'react'
+import { Footer } from '../../components/Footer'
+import { Header } from '../../components/Header'
 
 export const Sell = () => {
   return (
-    <div>Sell</div>
+    <div className='w-full'>
+    <Header/>
+    Sell
+    <Footer/>
+    </div>
   )
 }
