@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
@@ -8,40 +9,22 @@ import { api } from "../../services/api";
 import { IPost } from "../../interfaces";
 
 export const Blog = () => {
-
-  const m = moment().toDate();
-
   const [postData, setPostData] = useState<IPost[]>([
     {
       post_id: "",
       title: "",
       content: "",
-      created_at: m,
+      created_at: new Date(),
     },
   ]);
 
   useEffect(() => {
-    loadPost();
-    console.log(postData);
-  }, [postData]);
+    load();
+  }, []);
 
   const load = async () => {
     const res = await api.get("/posts");
-    console.log(res.data);
-    setPostData(res.data);
-  };
-
-  const loadPost = async () => {
-    try {
-      const load = async () => {
-        const res = await api.get("/posts");
-        setPostData(res.data);
-      };
-      load();
-    } catch (error: any) {
-      // throw new Error(`Something wrong occurred: ${error.message}`);
-      console.error(`Something wrong occurred: ${error.message}`);
-    }
+    setPostData(res.data.posts);
   };
 
   const getSinglePost = async (id: string) => {
@@ -65,6 +48,13 @@ export const Blog = () => {
           <Grid item xs={5}>
             <div className="flex justify-center flex-col self-center pt-3 pb-5">
               <img src={defaultImg} alt="postImage" className="rounded-md justify-self-center w-56 h-32 self-center" />
+            </div>{" "}
+            <div className="flex justify-center flex-col self-center pt-3 pb-5">
+              <img
+                src={defaultImg}
+                alt="postImage"
+                className="rounded-md justify-self-center w-56 h-32 self-center mt-5"
+              />
             </div>
           </Grid>
           <Grid item xs={7}>
@@ -72,10 +62,21 @@ export const Blog = () => {
               {postData?.map((posts: IPost, key) => {
                 return (
                   <>
-                    <title className="flex flex-col text-2xl" key={posts.post_id}>
-                      {posts.title}
-                    </title>
-                    <span className="mr-9">{posts.content}</span>
+                    <Link to={`/posts/${posts.post_id}`} className="userPage" target="_blank" rel="noopener noreferrer">
+                      <button
+                        onClick={() => {
+                          getSinglePost(posts.post_id);
+                        }}
+                      >
+                        <title className="flex flex-col text-lg mt-3" key={posts.post_id}>
+                          {posts.title}
+                        </title>
+                    <span className="mr-9 text-sm">{posts.content}</span>
+                    <span className="flex flex-col">
+                      <>Date added: {moment(posts.created_at).format("DD/MM/YYYY")}</>{" "}
+                    </span>
+                      </button>
+                    </Link>
                   </>
                 );
               })}
