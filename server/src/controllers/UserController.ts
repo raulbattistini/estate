@@ -71,14 +71,16 @@ export class UserController {
         password,
       });
 
-      if (!token) return res.status(401);
+      if (!token) return res.status(401).json({
+        message: "Invalid token"
+      });
 
       return res.status(200).json({
         hash: `${token}`,
         user: instanceToPlain(user),
       });
-    } catch (error) {
-      return next(error);
+    } catch (error: any) {
+      return next(error.message);
     }
   }
 

@@ -7,6 +7,8 @@ import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { loginSchema } from "../../helpers/schema";
+import { api } from "../../services/api";
+import * as cheerio from "cheerio";
 
 export const Login = () => {
   // usestate
@@ -29,37 +31,37 @@ export const Login = () => {
         const isLogged = await auth.signin(email, password);
         console.log(isLogged);
         if (isLogged) {
-          toast.success(`Welcome ${auth.user?.name}`);
+          console.log(`Welcome ${auth.user?.name}`);
           navigate("/welcome");
         } else {
-          navigate("/login");
+          console.log("Something unexpected occurred.");
         }
       }
     } catch (error: any) {
-      toast.error(error.message);
+      // return res.data.message
+      const $ = cheerio.load(error.response.data);
+      var axiosParsed = $("pre").text();
+      console.log(axiosParsed);
+      // navigate("/login");
     }
   };
-  const override: CSSProperties = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "red",
-  };
-  let content;
-  content = (
+  return (
     <>
       <div className="w-full">
         <Header />
         <div className="bg-[#21a0a0] flex flex-col text-center pb-5">
           <h1 className="text-2xl text-white pt-3">Login to see your account</h1>
-
+          
           <>
             <Formik
-            initialValues={{
-              email: "",
-              password: ""
-            }}
-            onSubmit={(values)=>{handleLogin(values.email, values.password)}}
-            validationSchema={loginSchema}
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              onSubmit={(values) => {
+                handleLogin(values.email, values.password);
+              }}
+              validationSchema={loginSchema}
             >
               {({ values, errors, handleChange, touched }) => {
                 return (
@@ -75,9 +77,9 @@ export const Login = () => {
                       name="email"
                     />
                     <span className="text-red-300 mt-2 text-center flex flex-col">
-                        {!!touched.email && errors.email}
-                        {touched.email && !!errors.email}
-                      </span>
+                      {!!touched.email && errors.email}
+                      {touched.email && !!errors.email}
+                    </span>
                     <label className="pt-3 text-white justify-center flex self-center">Password</label>
                     <input
                       className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
@@ -89,9 +91,9 @@ export const Login = () => {
                       required
                     />
                     <span className="text-red-300 mt-2 text-center flex flex-col">
-                        {!!touched.password && errors.password}
-                        {touched.password && !!errors.password}
-                      </span>
+                      {!!touched.password && errors.password}
+                      {touched.password && !!errors.password}
+                    </span>
                     <span className="flex flex-col text-white pt-3">
                       <Link to="/forgot-password" className="text-center text-purple-200">
                         Forgot your password?
@@ -120,5 +122,4 @@ export const Login = () => {
       </div>
     </>
   );
-  return content;
 };

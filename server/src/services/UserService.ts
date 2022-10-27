@@ -1,4 +1,4 @@
-import { hash } from "bcryptjs";
+import { hash, compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { IUserAuth, IUserRequest } from "../interfaces";
 import { userRepository } from "../repositories";
@@ -13,13 +13,13 @@ export class UserService {
     });
 
     if (!user) {
-      throw new Error("Email/Password incorrect");
+      throw new Error("Try creating an account before you log in...");
     }
 
-    passwordCompareSync(password, user.password);
+    const comparePassword = await compare(password, user.password);
 
-    if (!passwordCompareSync) {
-      throw new Error("Email/Password incorrect. Check your credentials and try again.");
+    if (!comparePassword) {
+      throw new Error("Password incorrect. Check your credentials and try again.");
     }
 
     const token = sign(
