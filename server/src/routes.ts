@@ -24,7 +24,7 @@ routes.get("/api/posts/:id", postController.getById);
 
 routes.post("/api/posts", postController.post);
 
-routes.put("/api/posts", postController.update);
+routes.put("/api/posts/:id", postController.update);
 
 routes.delete("/api/posts/:id", postController.deleteById);
 
