@@ -15,6 +15,7 @@ export const PostPage = () => {
   });
 
   useEffect(() => {
+    // @ts-ignore
     getPostById(id);
     console.log(postData);
   }, []);

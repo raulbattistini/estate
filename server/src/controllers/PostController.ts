@@ -94,10 +94,10 @@ export class PostController {
          content: content,
          created_at: created_at
        })
-       .where("id= :id", { post_id: req.params.id })
+       .where("post_id = :post_id", { post_id: req.params.id })
        .execute();
 
-     return res.status(204).json({
+     return res.status(200).json({
        message: `Post with id ${req.params.id} was updated successfully`,
      });
    } catch (error) {
