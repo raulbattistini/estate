@@ -1,10 +1,12 @@
 import { hash, compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { IUserAuth, IUserRequest } from "../interfaces";
+import { IUserAuth, IUserCreate, IUserUpdate } from "../interfaces";
 import { userRepository } from "../repositories";
 import { instanceToPlain } from "class-transformer";
 import { passwordCompareSync } from "../helpers/compareSync";
 import { generateUUID } from "../helpers/generateUUID";
+import { User } from "../models/User";
+import { hashPassword } from "../helpers/hashPassword";
 
 export class UserService {
   async authenticateUser({ email, password }: IUserAuth) {
@@ -41,7 +43,7 @@ export class UserService {
 
     return instanceToPlain(users);
   }
-  async createUser({ name, email, admin = false, password, intention, income, created_at }: IUserRequest) {
+  async createUser({ name, email, admin = false, password, intention, income, created_at }: IUserCreate) {
     if (!email) {
       throw new Error("Invalid body. Insert an email");
     }
@@ -51,7 +53,7 @@ export class UserService {
     });
 
     if (userAlreadyExists) {
-      throw new Error("User already exists");
+      throw new Error("This email is already registered. Try logging in instead.");
     }
 
     const passwordHash = await hash(password, 12);

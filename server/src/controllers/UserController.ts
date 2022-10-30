@@ -1,5 +1,7 @@
 import { instanceToPlain } from "class-transformer";
 import { Request, Response, NextFunction } from "express";
+import { hashPassword } from "../helpers/hashPassword";
+import { User } from "../models/User";
 import { userRepository } from "../repositories";
 import { UserService } from "../services/UserService";
 
@@ -27,11 +29,11 @@ export class UserController {
           message: `Invalid body for user.`,
         });
       return res.status(201).json({
-        message: `Created user with body`,
+        message: `Created user with body:`,
         user,
       });
-    } catch (error) {
-      return next(error);
+    } catch (error: any) {
+      return next(error.message);
     }
   }
 
@@ -46,7 +48,9 @@ export class UserController {
       if (!user) return res.status(404).json({
         message: `No such user with id ${id}`
       });
-      return res.status(200).json(user);
+      return res.status(200).json({
+        user: user
+      });
     
     } catch (error) {
     
@@ -94,6 +98,48 @@ export class UserController {
       return res.status(200).json(users);
     } catch (error) {
       return next(error);
+    }
+  }
+
+  async updateUser(req: Request, res: Response, next: NextFunction){
+
+    try {
+      const { name, email, admin, password, intention, income } = req.body;
+
+      const id = req.params.id;
+
+      const userId = await userRepository.findOne({
+        where: {
+          id: (id),
+        },
+      });
+
+      if(!userId){
+        return res.status(400).json({
+          message: "User does not exists!"
+        })
+      }
+
+      const updateUser = await userRepository
+      .createQueryBuilder()
+      .update(User)
+      .set({
+          name: name,
+          admin: false,
+          email: email,
+          password: hashPassword(password),
+          income: income,
+          intention: intention
+      })
+      .where("id = :id", { id: id })
+      .execute();  
+
+      return res.status(200).json({
+        message: `The user: ${id} was sucessfully updated.`
+      })
+      
+    } catch (error: any) {
+      return next(error.message)
     }
   }
 }

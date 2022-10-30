@@ -1,8 +1,8 @@
 import { Formik, Form } from "formik";
-import { useState, useEffect, useRef, CSSProperties, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import ClipLoader from "react-spinners/ClipLoader";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
@@ -41,17 +41,28 @@ export const Login = () => {
       // return res.data.message
       const $ = cheerio.load(error.response.data);
       var axiosParsed = $("pre").text();
+      toast.error(axiosParsed, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       console.log(axiosParsed);
       // navigate("/login");
     }
   };
   return (
     <>
+      <ToastContainer />
       <div className="w-full">
         <Header />
         <div className="bg-[#21a0a0] flex flex-col text-center pb-5">
           <h1 className="text-2xl text-white pt-3">Login to see your account</h1>
-          
+
           <>
             <Formik
               initialValues={{
