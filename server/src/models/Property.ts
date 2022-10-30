@@ -33,4 +33,7 @@ export class Property {
   @Column()
   media: string
 
+  @Column()
+  available_for: string;
+
 }
