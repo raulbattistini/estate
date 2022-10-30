@@ -11,8 +11,10 @@ import { Rent } from "./pages/Rent";
 import { RegisterUserSec } from "./pages/RegisterUser/SecStep";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { Welcome } from "./pages/Welcome";
-import { AvailableProperties } from "./pages/AvailableProperties";
 import { RequireAuth } from "./contexts/Auth/RequireAuth";
+import { UserPage } from "./pages/User";
+import { RestrictPostArea } from "./pages/Blog/RestrictArea";
+import { PostPageRestricted } from "./pages/Blog/RestrictArea/PostPage";
 
 export const RoutesList = () => {
   return (
@@ -34,14 +36,6 @@ export const RoutesList = () => {
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
-          path="/available-properties"
-          element={
-            <RequireAuth>
-              <AvailableProperties />
-            </RequireAuth>
-          }
-        />
-        <Route
           path="/buy"
           element={
             <RequireAuth>
@@ -62,6 +56,30 @@ export const RoutesList = () => {
           element={
             <RequireAuth>
               <Rent />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/users/:id"
+          element={
+            <RequireAuth>
+              <UserPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth>
+              <RestrictPostArea />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/posts/admin/:id"
+          element={
+            <RequireAuth>
+              <PostPageRestricted />
             </RequireAuth>
           }
         />
