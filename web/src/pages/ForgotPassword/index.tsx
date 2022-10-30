@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { useRef, useEffect } from "react";
+import { Formik, Form } from "formik";
 import { Grid } from "@mui/material";
 import { Header } from "../../components/Header";
+import { forgotPasswordSchema } from "../../helpers/schema";
 
 export const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [value, setValue] = useState("");
-
-  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setValue(event.currentTarget.value);
-  };
+  // useeffect
+  useEffect(() => {
+    emailRef!.current!.focus();
+  }, []);
+  const emailRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div className="w-full">
@@ -20,23 +21,41 @@ export const ForgotPassword = () => {
           </span>
         </div>
         <div className="flex-col flex justify-center">
-          <label htmlFor="email" className="text-center text-white pb-3 pt-3">
-            Email to send recovery link
-          </label>
-          <input
-            type="email"
-            placeholder="Type your email.."
-            className="flex flex-col self-center justify-center items-center pl-3 rounded-sm outline-0 p-2"
-            name="forgot-password"
-            value={email}
-            onChange={handleChange}
-          />
-          <button
-            className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500 w-44 justify-center self-center"
-            onClick={()=>{setEmail(email)}}
+          <Formik
+            initialValues={{
+              forgotMail: "",
+            }}
+            onSubmit={() => {}}
+            validationSchema={forgotPasswordSchema}
           >
-            Send email
-          </button>
+            {({ values, errors, handleChange, touched }) => {
+              return (
+                <Form className="justify-center flex flex-col">
+                  <label htmlFor="email" className="text-center text-white pb-3 pt-3">
+                    Email to send recovery link
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Type your email.."
+                    className="flex flex-col self-center justify-center items-center pl-3 rounded-sm outline-0 p-2"
+                    name="forgotMail"
+                    value={values.forgotMail}
+                    onChange={handleChange}
+                    ref={emailRef}
+                  />
+                  <span className="text-center text-red-300 pt-3">
+                    {!!errors.forgotMail && touched.forgotMail}
+                    {!!touched.forgotMail && errors.forgotMail}
+                  </span>
+                  <button
+                    className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500 w-44 justify-center self-center"
+                  >
+                    Send email
+                  </button>
+                </Form>
+              );
+            }}
+          </Formik>
         </div>
       </div>
       <div className="bg-[#c9c9c9]">
@@ -44,8 +63,7 @@ export const ForgotPassword = () => {
           <Grid container className="text-white text-center pb-4 pt-4 text-xs">
             <Grid item xs={3} className="hover:text-[#046865] cursor-pointer">
               {" "}
-              <div className="flex text-center justify-center"> </div> Terms of
-              Service{" "}
+              <div className="flex text-center justify-center"> </div> Terms of Service{" "}
             </Grid>
             <Grid item xs={3} className="hover:text-[#046865] cursor-pointer">
               {" "}
