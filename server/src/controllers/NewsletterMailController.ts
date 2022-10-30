@@ -6,8 +6,8 @@ import { ISendService } from "../interfaces";
 import { mailRepository, userRepository } from "../repositories";
 import { Mail } from "../models/Mail";
 import { User } from "../models/User";
-import { MailService } from "../services/MailService";
-export class MailController {
+import { MailService } from "../services/NewsletterMailService";
+export class NewsletterMailController {
   async sendMail(req: Request, res: Response, next: NextFunction) {
     const { email, mail_id } = req.body;
 
