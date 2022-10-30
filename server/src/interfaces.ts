@@ -5,7 +5,7 @@ export interface IUserAuth {
   password: string;
 }
 
-export interface IUserRequest {
+export interface IUserCreate {
   name: string;
   email: string;
   admin?: boolean;
@@ -13,6 +13,15 @@ export interface IUserRequest {
   intention: string;
   income: string;
   created_at: Date;
+}
+
+export interface IUserUpdate {
+  name: string;
+  email: string;
+  admin?: boolean;
+  password: string;
+  intention: string;
+  income: string;
 }
 
 export interface ISendService {

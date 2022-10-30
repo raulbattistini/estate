@@ -44,24 +44,6 @@ export interface IRegisterProps {
   children: ReactNode | JSX.Element[];
 }
 
-export interface IData {
-  name: string;
-  order: number;
-  checked?: boolean;
-  index?: number;
-  value: string;
-}
-
-export interface IObj {
-  obj: IData;
-  onChange: {
-    (e: React.ChangeEvent<any>): void;
-    <T = string | React.ChangeEvent<any>>(field: T): T extends React.ChangeEvent<any>
-      ? void
-      : (e: string | React.ChangeEvent<any>) => void;
-  };
-}
-
 export interface IFinalValues {
   intention: string[];
   income?: string;
@@ -73,7 +55,9 @@ export interface IAuth {
 }
 
 export interface IUserAuth {
+  id: string;
   name: string;
+  admin: boolean;
   email: string;
   password: string;
   intention?: string;
@@ -100,4 +84,17 @@ export interface IPost {
   title: string
   content: string
   created_at: Date
+}
+
+export interface IValues {
+  name: string,
+  email: string,
+  password: string,
+  intention?: string,
+  income?: string
+}
+
+export interface IUpdatePost {
+  title: string,
+  content: string,
 }
