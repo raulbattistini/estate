@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import { Navigate, Link, useParams } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 import { LoggedNav } from "../../../components/LoggedNav";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
-import { IPost, IUserAuth, IValues } from "../../../interfaces";
+import { IPost, IUserAuth } from "../../../interfaces";
 import { api } from "../../../services/api";
 import moment from "moment";
 

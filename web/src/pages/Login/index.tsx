@@ -1,18 +1,15 @@
 import { Formik, Form } from "formik";
-import { useState, useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import * as cheerio from "cheerio";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { loginSchema } from "../../helpers/schema";
-import { api } from "../../services/api";
-import * as cheerio from "cheerio";
 
 export const Login = () => {
-  // usestate
-  let [color, setColor] = useState("#ffffff");
   // useeffect
   useEffect(() => {
     emailRef!.current!.focus();
@@ -21,8 +18,10 @@ export const Login = () => {
   // useref
   const emailRef = useRef<HTMLInputElement | null>(null);
 
-  // lib hooks
+  // usecontext
   const auth = useContext(AuthContext);
+  
+  // lib hooks
   const navigate = useNavigate();
 
   const handleLogin = async (email: string, password: string) => {
@@ -31,7 +30,7 @@ export const Login = () => {
         const isLogged = await auth.signin(email, password);
         console.log(isLogged);
         if (isLogged) {
-          console.log(`Welcome ${auth.user?.name}`);
+          console.log(`Welcome ${auth.user?.name[1]}`);
           navigate("/welcome");
         } else {
           console.log("Something unexpected occurred.");
@@ -55,6 +54,7 @@ export const Login = () => {
       // navigate("/login");
     }
   };
+
   return (
     <>
       <ToastContainer />

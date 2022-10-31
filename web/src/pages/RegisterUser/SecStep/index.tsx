@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Grid, MenuItem, Select } from "@mui/material";
+import Grid  from "@mui/material/Grid";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { Formik, Form, Field } from "formik";
 import * as cheerio from "cheerio";
 import { toast, ToastContainer } from "react-toastify";

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import Grid  from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Header } from "../../components/Header";

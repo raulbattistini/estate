@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BiBuoy } from "react-icons/bi";
-import { Grid } from "@mui/material";
+import Grid  from "@mui/material/Grid";
 
 export const NotFound = () => {
   return (

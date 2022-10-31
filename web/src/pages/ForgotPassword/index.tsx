@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { Formik, Form } from "formik";
-import { Grid } from "@mui/material";
+import Grid  from "@mui/material/Grid";
 import { Header } from "../../components/Header";
 import { forgotPasswordSchema } from "../../helpers/schema";
 

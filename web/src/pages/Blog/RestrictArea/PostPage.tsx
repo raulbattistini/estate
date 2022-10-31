@@ -9,7 +9,7 @@ import { IPost, IUpdatePost, IUserAuth, IValues } from "../../../interfaces";
 import { api } from "../../../services/api";
 import moment from "moment";
 import { Formik, Form } from "formik";
-import { Grid } from "@mui/material";
+import Grid  from "@mui/material/Grid";
 import * as cheerio from "cheerio";
 import "react-toastify/dist/ReactToastify.css";
 
