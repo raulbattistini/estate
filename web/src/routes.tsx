@@ -15,6 +15,10 @@ import { RequireAuth } from "./contexts/Auth/RequireAuth";
 import { UserPage } from "./pages/User";
 import { RestrictPostArea } from "./pages/Blog/RestrictArea";
 import { PostPageRestricted } from "./pages/Blog/RestrictArea/PostPage";
+import { TermsService } from "./pages/InfoLinks/TermsService";
+import { PrivacyPolicy } from "./pages/InfoLinks/PrivacyPolicy";
+import { RealtorsFlorida } from "./pages/InfoLinks/RealtorsFlorida";
+import { DMCANotice } from "./pages/InfoLinks/DMCANotice";
 
 export const RoutesList = () => {
   return (
@@ -83,6 +87,10 @@ export const RoutesList = () => {
             </RequireAuth>
           }
         />
+        <Route path="/terms-of-service" element={<TermsService/>} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+        <Route path="/realtors-florida" element={<RealtorsFlorida/>} />
+        <Route path="/DMCA" element={<DMCANotice/>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
