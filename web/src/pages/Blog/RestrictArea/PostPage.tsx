@@ -7,9 +7,8 @@ import { LoggedNav } from "../../../components/LoggedNav";
 import { AuthContext } from "../../../contexts/Auth/AuthContext";
 import { IPost, IUpdatePost, IUserAuth, IValues } from "../../../interfaces";
 import { api } from "../../../services/api";
-import moment from "moment";
 import { Formik, Form } from "formik";
-import Grid  from "@mui/material/Grid";
+import Grid from "@mui/material/Grid";
 import * as cheerio from "cheerio";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -72,12 +71,13 @@ export const PostPageRestricted = () => {
               {auth!.user!.map((userInfo: IUserAuth, key: number) => {
                 return (
                   <div>
+                    <div className="flex flex-col text-center mr-10 ml-10">
+                      <p className="text-white pb-8 text-xl">
+                        Do you really need to update the posts? <br /> Make sure the posts are backed up before doing any changes.
+                      </p>
+                    </div>
                     {userInfo.admin == true ? (
                       <div>
-                        <span className="text-center text-2xl flex justify-center pb-8 text-white">
-                          {" "}
-                          You are elegible to update posts. See below the info.{" "}
-                        </span>
                         <Grid container className="content-center">
                           <Grid item xs={12}>
                             <Formik

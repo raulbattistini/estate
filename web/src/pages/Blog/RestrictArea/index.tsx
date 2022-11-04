@@ -47,6 +47,7 @@ export const RestrictPostArea = () => {
                 <div>
                   {userInfo.admin == true ? (
                     <div>
+                      <span className="text-center text-lg flex justify-center pb-5 flex flex-col"> Administrative procedures against bad users? <br /> <Link to="/users/admin/" className="underline hover text-[#c8c8c8]">Go here</Link> </span>
                       <span className="text-center text-lg flex justify-center pb-5"> You are elegible to update posts. See below the listing. </span>
                       {postData?.map((posts: IPost, key) => {
                         return (
