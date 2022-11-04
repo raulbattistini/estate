@@ -12,13 +12,15 @@ import { RegisterUserSec } from "./pages/RegisterUser/SecStep";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { Welcome } from "./pages/Welcome";
 import { RequireAuth } from "./contexts/Auth/RequireAuth";
-import { UserPage } from "./pages/User";
+import { UserPage } from "./pages/Users";
 import { RestrictPostArea } from "./pages/Blog/RestrictArea";
 import { PostPageRestricted } from "./pages/Blog/RestrictArea/PostPage";
 import { TermsService } from "./pages/InfoLinks/TermsService";
 import { PrivacyPolicy } from "./pages/InfoLinks/PrivacyPolicy";
 import { RealtorsFlorida } from "./pages/InfoLinks/RealtorsFlorida";
 import { DMCANotice } from "./pages/InfoLinks/DMCANotice";
+import { UsersListing } from "./pages/Users/RestrictArea/UsersListing";
+import { UserPageRestricted } from "./pages/Users/RestrictArea/UserPageRestricted";
 
 export const RoutesList = () => {
   return (
@@ -84,6 +86,22 @@ export const RoutesList = () => {
           element={
             <RequireAuth>
               <PostPageRestricted />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/users/admin"
+          element={
+            <RequireAuth>
+              <UsersListing />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/users/admin/:id"
+          element={
+            <RequireAuth>
+              <UserPageRestricted />
             </RequireAuth>
           }
         />
