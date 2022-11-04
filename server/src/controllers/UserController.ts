@@ -125,7 +125,7 @@ export class UserController {
       .update(User)
       .set({
           name: name,
-          admin: false,
+          admin: admin,
           email: email,
           password: hashPassword(password),
           income: income,
