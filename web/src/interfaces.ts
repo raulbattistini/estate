@@ -98,3 +98,9 @@ export interface IUpdatePost {
   title: string,
   content: string,
 }
+
+export interface IUpdateUserInfo {
+  email: string,
+  password: string,
+  admin: boolean
+}
