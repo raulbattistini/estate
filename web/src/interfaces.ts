@@ -100,7 +100,10 @@ export interface IUpdatePost {
 }
 
 export interface IUpdateUserInfo {
+  name: string,
+  admin: boolean,
   email: string,
   password: string,
-  admin: boolean
+  intention?: string,
+  income?: string
 }

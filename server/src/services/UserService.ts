@@ -43,7 +43,7 @@ export class UserService {
 
     return instanceToPlain(users);
   }
-  async createUser({ name, email, admin = false, password, intention, income, created_at }: IUserCreate) {
+  async createUser({ name, email, admin, password, intention, income, created_at }: IUserCreate) {
     if (!email) {
       throw new Error("Invalid body. Insert an email");
     }

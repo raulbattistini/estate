@@ -51,6 +51,7 @@ export const UserPage = () => {
       name: values.name,
       email: values.email,
       password: values.password,
+      admin: false,
       intention: values.intention,
       income: values.income,
     };
