@@ -11,9 +11,7 @@ export class MailService {
     subject: string,
     variables: { 
       id: string; 
-      name: string; 
-      title: string; 
-      description: string 
+      name: string;
    },
     path: string
   ) {

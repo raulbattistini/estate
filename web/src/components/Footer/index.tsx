@@ -7,6 +7,7 @@ import { AiFillFacebook } from "react-icons/ai";
 import { BsInstagram } from "react-icons/bs";
 import { newsletterSchema } from "../../helpers/schema";
 import { Link } from "react-router-dom";
+import { api } from "../../services/api";
 
 export const Footer = () => {
   const [emailNotification, setEmailNotification] = useState("");
@@ -21,6 +22,12 @@ export const Footer = () => {
   };
   const redirInstagram = () => {
     window.location.assign("https://instagram.com/");
+  };
+
+  // 
+  const sendMail = async () => {
+    const res = await api.post(`/mails/test`);
+    console.log(res);
   };
   return (
     <div className="bg-[#046865] w-full">
@@ -49,7 +56,7 @@ export const Footer = () => {
                   name="emailNotification"
                   onChange={handleChange}
                 />
-                <button className="bg-[#a18276] ml-5 rounded-sm p-2 text-white" type="submit">
+                <button className="bg-[#a18276] ml-5 rounded-sm p-2 text-white" type="submit" onClick={sendMail}>
                   {" "}
                   Check it{" "}
                 </button>

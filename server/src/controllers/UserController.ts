@@ -104,7 +104,7 @@ export class UserController {
   async updateUser(req: Request, res: Response, next: NextFunction){
 
     try {
-      const { name, email, admin, password, intention, income } = req.body;
+      const { name, email, admin, password, intention, income } = req.body as User;
 
       const id = req.params.id;
 

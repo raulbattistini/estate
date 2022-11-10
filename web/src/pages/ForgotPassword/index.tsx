@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import Grid  from "@mui/material/Grid";
 import { Header } from "../../components/Header";
 import { forgotPasswordSchema } from "../../helpers/schema";
+import { api } from "../../services/api";
 
 export const ForgotPassword = () => {
   // useeffect
@@ -11,6 +12,10 @@ export const ForgotPassword = () => {
   }, []);
   const emailRef = useRef<HTMLInputElement | null>(null);
 
+  const sendMail = async () => {
+    const res = await api.post(`/mails/forgot-password`);
+    console.log(res);
+  };
   return (
     <div className="w-full">
       <Header />
@@ -48,7 +53,7 @@ export const ForgotPassword = () => {
                     {!!touched.forgotMail && errors.forgotMail}
                   </span>
                   <button
-                    className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500 w-44 justify-center self-center"
+                    className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500 w-44 justify-center self-center" onClick={sendMail} type="button"
                   >
                     Send email
                   </button>

@@ -1,7 +1,8 @@
 import { Router } from "express";
 import multer from "multer";
+import { ForgotPasswordController } from "./controllers/FgPassMailController";
 import { ImageController } from "./controllers/ImageController";
-// import { NewsletterMailController } from "./controllers/NewsletterMailController";
+import { NewsletterMailController } from "./controllers/NewsletterMailController";
 import { PostController } from "./controllers/PostController";
 import { UserController } from "./controllers/UserController";
 import { uploadMiddleware } from "./middlewares/uploadMiddleware";
@@ -14,9 +15,15 @@ const userController = new UserController();
 
 const imageController = new ImageController()
 
-// const newsletterMailController = new NewsletterMailController();
+const newsletterMailController = new NewsletterMailController();
 
-// routes.post("/api/mails", newsletterMailController.sendMail);
+const fgPassword = new ForgotPasswordController();
+
+routes.post("/api/mails/newsletter", newsletterMailController.sendMail);
+
+routes.post("/api/mails/forgot-password", fgPassword.sendMail);
+
+routes.post("/api/mails/test", fgPassword.sendForgotPassMail);
 
 routes.get("/api/posts", postController.get);
 

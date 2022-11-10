@@ -35,7 +35,7 @@ export const UserPageRestricted = () => {
   const handleUpdate = async (values: IUpdateUserInfo) => {
     const updatedInfo = {
       name: values.name,
-      admin: values?.admin,
+      admin: values!.admin,
       email: values?.email,
       password: values.password,
       intention: values.intention,
@@ -115,7 +115,8 @@ export const UserPageRestricted = () => {
                                 intention: "",
                                 income: ""
                               }}
-                              onSubmit={(values) => {
+                              onSubmit={(values) => { 
+                                // @ts-ignore
                                 handleUpdate(values);
                               }}
                             >
@@ -142,23 +143,27 @@ export const UserPageRestricted = () => {
                                       <label htmlFor="admin" className="text-white pt-5">
                                         Is the user admin?
                                       </label>{" "}
-                                      <div
-                                        role="group"
-                                        aria-labelledby="checkbox-group"
-                                        className="flex flex-col text-white"
+                                      <Select
+                                        labelId="demo-simple-select-required-label"
+                                        id="demo-simple-select-required"
+                                        value={values.admin}
+                                        label="admin"
+                                        name="admin"
+                                        defaultValue={userData?.admin}
+                                        onChange={handleChange}
+                                        error={!!touched.admin && !!errors.admin}
+                                        className="w-2/5 text-white mb-5"
                                       >
-                                        <label>
-                                          <Checkbox name="admin" value="true" />⠀ True
-                                        </label>
-                                        <label>
-                                          <Checkbox name="admin" value="false" />⠀ False
-                                        </label>
-                                      </div>
-                                      <span> Previous: {userData?.admin} </span>
+                                        <MenuItem className="text-white">
+                                          <em>Select...</em>
+                                        </MenuItem>
+                                        <MenuItem value={"true"}>True</MenuItem>
+                                        <MenuItem value={"false"}>False</MenuItem>
+                                      </Select>
                                       <input
                                         type="email"
                                         name="email"
-                                        className="outline-0 w-3/5 pl-2 p-1 rounded-sm text-black"
+                                        className="outline-0 w-3/5 pl-2 p-1 rounded-sm text-black mt-5"
                                         onChange={handleChange}
                                         value={values.email}
                                         defaultValue={userData?.email}
@@ -177,7 +182,6 @@ export const UserPageRestricted = () => {
                                         className="outline-0 w-3/5 pl-2 p-1 rounded-sm"
                                         onChange={handleChange}
                                         value={values.password}
-                                        defaultValue={userData?.password}
                                       />
                                       <div id="checkbox-group" className="pt-3 text-white">
                                         What is he intending to do?
@@ -203,7 +207,7 @@ export const UserPageRestricted = () => {
                                       <span className="flex justify-center text-sm pt-1 text-white">
                                         {" "}
                                         (It was previously stated that their intention was to{" "}
-                                        {userInfo!.intention!.replace(regex, "")})
+                                        {userData?.intention!.replace(regex, "")})
                                       </span>
                                       <label className="pt-8 text-white pb-3 text-center">
                                         His your annual income(US$).
@@ -214,7 +218,7 @@ export const UserPageRestricted = () => {
                                         value={values.income}
                                         label="income"
                                         name="income"
-                                        defaultValue={userInfo.income}
+                                        defaultValue={userData?.income}
                                         onChange={handleChange}
                                         error={!!touched.income && !!errors.income}
                                         className="w-2/5 text-white"

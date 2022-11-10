@@ -1,18 +1,21 @@
 import { PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 import dayjs from 'dayjs';
 
-export class Mail {
+export class FgPassMail {
    @PrimaryGeneratedColumn()
-   mail_id: string;
- 
+   id: string;
+
    @Column()
-   title: string;
- 
+   title: string
+
    @Column()
-   description: string;
- 
+   content: string
+
+   @Column()
+   mail_address: string;
+
    @CreateDateColumn({
       default: dayjs()
    })
-   created_at: Date;
+   last_requested_at: Date;
 }

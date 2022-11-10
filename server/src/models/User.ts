@@ -9,8 +9,10 @@ export class User {
   @Column()
   name: string
   
-  @Column()
-  admin?: boolean
+  @Column({
+    default: false
+  })
+  admin: boolean
   
   @Column()
   email: string;

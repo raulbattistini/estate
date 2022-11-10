@@ -3,8 +3,9 @@ import "dotenv/config";
 import { User } from "../models/User";
 import { Property } from "../models/Property";
 import { Image } from "../models/Image";
-import { Mail } from "../models/Mail";
+import { FgPassMail } from "../models/FgPassMail";
 import { Post } from "../models/Post";
+import { NewsletterMail } from "./../models/NewsletterMail";
 
 export const connection = new DataSource({
   type: "postgres",
@@ -13,7 +14,7 @@ export const connection = new DataSource({
   password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT as unknown as number,
-  entities: [User, Property, Image, Mail, Post],
+  entities: [User, Property, Image, Post, FgPassMail, NewsletterMail],
   migrations: ["./db/migrations/"],
   synchronize: true,
 });
