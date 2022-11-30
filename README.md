@@ -8,6 +8,4 @@ To run the project, you must run an instance of PostgreSQL database, create a da
 
 Use 2 tabs of the terminal while Docker is not being used in the application and run `pnpm i` in each folder (`web` and `server`). 
 
-If you are unaware of how package managers work, do not switch between npm/ yarn and pnpm.\
-You are of course free to run `rm pnpm-lock.yaml` and do a fresh install with your package manager of choice.
-
+If you are unaware of how package managers work, do not switch between npm/ yarn and pnpm.
