@@ -1,8 +1,8 @@
+import { random } from "../helpers/randomNumber";
 import "dotenv/config";
 import { NextFunction } from "express";
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
-const sgMail = require("@sendgrid/mail");
 
 export class ForgotPasswordController {
   async sendForgotPassMail(req: Request, res: Response, next: NextFunction) {
@@ -28,10 +28,43 @@ export class ForgotPasswordController {
       });
 
       let info = await transporter.sendMail({
-        from: '"FLRE Consulting" <raulbattistini.3@gmail.com>',
+        from: '"FLRE Consulting" <thesamplemail@sample.com>',
         to: "Raul Battistini <raulbattistini.3@gmail.com>", // you can contact me at this email, by the way
-        subject: `Test ${Date.now()}`,
-        html: "<h1> Sending mails with Node </h1>",
+        subject: `Recover your password`,
+        html: `<body
+        style="
+          background-color: black;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+            'Open Sans', 'Helvetica Neue', sans-serif;
+        "
+      >
+        <div style="display: flex; justify-content: center; justify-items: center; position: relative; text-align: center">
+          <h1
+            style="
+              color: whitesmoke;
+              display: flex;
+              justify-content: center;
+              justify-items: center;
+              position: relative;
+              text-align: center;
+              font-weight: 200;
+            "
+          >
+            Forgot your password? No problem!
+          </h1>
+        </div>
+        <div style="display: flex; font-weight: 100; justify-content: center; justify-items: center">
+          <p style="color: white; display: block">Here is your code for recovery:</p>
+          <br />
+          <br />
+          <p id="recovery" style="color: white; display: inline-table">${random()}</p>
+        </div>
+          <div style="display: flex; justify-content: center;">
+        <span style="display: inline; position: relative; text-align: center">
+          <a href="/" style="text-decoration: none; color: darkcyan"> Click here to redefine your password</a>
+        </span>
+       </div>
+      </body>`,
       });
       transporter.sendMail(info, (error, info) => {
         if (error) {
@@ -52,22 +85,22 @@ export class ForgotPasswordController {
     }
   }
 
-  async sendMail(req: Request, res: Response, next: NextFunction) {
-    try {
-      sgMail.setApiKey(process.env!.SENDGRID_API_KEY as string);
+  // async sendMail(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     sgMail.setApiKey(process.env!.SENDGRID_API_KEY as string);
 
-      const msg = {
-        to: "raulbattistini.3@gmail.com",
-        from: "raulbattistini.3@gmail.com",
-        subject: "Sendind with sendgrid",
-        text: "testing text too",
-        html: "<b> And with deprecated tags </b>",
-      };
+  //     const msg = {
+  //       to: "raulbattistini.3@gmail.com",
+  //       from: "raulbattistini.3@gmail.com",
+  //       subject: "Sendind with sendgrid",
+  //       text: "testing text too",
+  //       html: "<b> And with deprecated tags </b>",
+  //     };
 
-      const info = await sgMail.send(msg);
-      res.status(200).json(info);
-    } catch (error) {
-      return next(error);
-    }
-  }
+  //     const info = await sgMail.send(msg);
+  //     res.status(200).json(info);
+  //   } catch (error) {
+  //     return next(error);
+  //   }
+  // }
 }

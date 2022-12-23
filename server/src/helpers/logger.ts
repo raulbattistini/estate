@@ -6,7 +6,7 @@ import { format } from "winston";
 const fileDir = "C:/workarea/byme/estate/server/src/logs/";
 const fileName = "C:/workarea/byme/estate/server/src/logs/log.log";
 
-const logFormatter = format.printf((info) => {
+const logFormatter = format.printf((info: any) => {
   let { timestamp, level, stack, message } = info;
   message = stack || message;
   return `${timestamp} from ${ip.address()} ${level}: ${message}`;

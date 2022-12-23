@@ -13,7 +13,7 @@ export const ForgotPassword = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
 
   const sendMail = async () => {
-    const res = await api.post(`/mails/forgot-password`);
+    const res = await api.post(`/mails/test`);
     console.log(res);
   };
   return (
