@@ -21,7 +21,7 @@ const fgPassword = new ForgotPasswordController();
 
 routes.post("/api/mails/newsletter", newsletterMailController.sendMail);
 
-routes.post("/api/mails/forgot-password", fgPassword.sendMail);
+// routes.post("/api/mails/forgot-password", fgPassword.sendMail);
 
 routes.post("/api/mails/test", fgPassword.sendForgotPassMail);
 
