@@ -20,10 +20,10 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({nullable: true})
   intention?: string
 
-  @Column()
+  @Column({nullable: true})
   income?: string
 
   @CreateDateColumn({

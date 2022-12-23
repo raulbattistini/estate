@@ -26,3 +26,4 @@ dist-ssr
 **.env
 notes.txt
 pnpm-lock.yaml
+/src/forgotPass.html
