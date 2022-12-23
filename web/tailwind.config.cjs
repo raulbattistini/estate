@@ -39,6 +39,7 @@ module.exports = {
         "black-rgba": "rgba(0, 0, 0, 0.5)",
         "transparent": "rgba(255, 255, 255, 0)",
         "glass-white": "rgba(255, 255, 255, 0.1)",
+        "sea-green-rgba": "rgba(4, 104, 101, 0.5)"
       },
     },
   },
