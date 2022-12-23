@@ -1,15 +1,24 @@
 import { Formik, Form } from "formik";
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as cheerio from "cheerio";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FacebookLogin from "@greatsumini/react-facebook-login";
+import { GoogleLogin } from "@react-oauth/google";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { MdVisibility } from "react-icons/md";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { loginSchema } from "../../helpers/schema";
+import { Grid } from "@mui/material";
+import { BsFacebook } from "react-icons/bs";
 
 export const Login = () => {
+  // state
+
+  const [selected, setSelected] = useState(false);
   // useeffect
   useEffect(() => {
     emailRef!.current!.focus();
@@ -20,7 +29,7 @@ export const Login = () => {
 
   // usecontext
   const auth = useContext(AuthContext);
-  
+
   // lib hooks
   const navigate = useNavigate();
 
@@ -92,19 +101,106 @@ export const Login = () => {
                       {touched.email && !!errors.email}
                     </span>
                     <label className="pt-3 text-white justify-center flex self-center">Password</label>
-                    <input
-                      className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
-                      type="password"
-                      placeholder="Insert your password..."
-                      value={values.password}
-                      onChange={handleChange}
-                      name="password"
-                      required
-                    />
-                    <span className="text-red-300 mt-2 text-center flex flex-col">
-                      {!!touched.password && errors.password}
-                      {touched.password && !!errors.password}
-                    </span>
+                    {selected === false ? (
+                      <>
+                        <div className="flex justify-center ml-56">
+                          <MdVisibility
+                            className="cursor-pointer absolute mt-2"
+                            onClick={() => {
+                              setSelected(!selected);
+                            }}
+                          />
+                        </div>
+                        <input
+                          className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
+                          type="password"
+                          placeholder="Insert your password..."
+                          value={values.password}
+                          onChange={handleChange}
+                          name="password"
+                          required
+                        />
+
+                        <span className="text-red-300 mt-2 text-center flex flex-col">
+                          {!!touched.password && errors.password}
+                          {touched.password && !!errors.password}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex justify-center ml-56">
+                          <AiFillEyeInvisible
+                            className="cursor-pointer absolute mt-2"
+                            onClick={() => {
+                              setSelected(!selected);
+                            }}
+                          />
+                        </div>
+                        <input
+                          className="outline-0 w-1/5 pl-2 p-1 rounded-sm"
+                          type="text"
+                          placeholder="Insert your password..."
+                          value={values.password}
+                          onChange={handleChange}
+                          name="password"
+                          required
+                        />
+
+                        <span className="text-red-300 mt-2 text-center flex flex-col">
+                          {!!touched.password && errors.password}
+                          {touched.password && !!errors.password}
+                        </span>
+                      </>
+                    )}
+                    <>
+                      <Grid container className="m-0 p-0 justify-between col-span-2">
+                        <Grid item xs={12} className="pb-4 pt-4">
+                          <span className="text-white"> Or...</span>
+                        </Grid>
+                        <Grid item xs={12} className="col-span-1">
+                          {" "}
+                          <div className="flex items-center">
+                            <BsFacebook className="text-white absolute mt-5 text-md" style={{ marginLeft: "34.5rem" }} />
+                          </div>
+                          <FacebookLogin
+                            appId="1088597931155576"
+                            style={{
+                              backgroundColor: "#4267b2",
+                              color: "#fff",
+                              fontSize: "16px",
+                              padding: "8px 30px",
+                              border: "none",
+                              borderRadius: "4px",
+                              textAlign: "end",
+                              justifySelf: "flex-end",
+                              justifyContent: "flex-end"
+                            }}
+                            onSuccess={(response) => {
+                              console.log("Login Success!", response);
+                            }}
+                            onFail={(error) => {
+                              console.log("Login Failed!", error);
+                            }}
+                            onProfileSuccess={(response) => {
+                              console.log("Get Profile Success!", response);
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          {" "}
+                          <div className="flex justify-center mt-8">
+                          <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                              console.log(credentialResponse);
+                            }}
+                            onError={() => {
+                              console.log("Login Failed");
+                            }}
+                          />
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </>
                     <span className="flex flex-col text-white pt-3">
                       <Link to="/forgot-password" className="text-center text-purple-200">
                         Forgot your password?
