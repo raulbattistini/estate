@@ -5,7 +5,7 @@ import { connection } from "./db/connection";
 import { routes } from "./routes";
 
 const app = express();
-
+app.set('trust proxy', true)
 const port = process.env.APP_PORT;
 
 connection
