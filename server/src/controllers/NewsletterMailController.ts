@@ -1,55 +1,52 @@
-import { resolve } from "path";
 import { Request, Response, NextFunction } from "express";
 import nodemailer from "nodemailer";
-import Handlebars from "handlebars";
-import { ISendService } from "../interfaces";
-import { newsletterRepository, userRepository } from "../repositories";
-import { NewsletterMail } from "../models/NewsletterMail";
-import { User } from "../models/User";
-import { MailService } from "../services/NewsletterMailService";
 export class NewsletterMailController {
   async sendMail(req: Request, res: Response, next: NextFunction) {
     try {
-      const { mail_address, id, email } = req.body;
+      let testAccount = await nodemailer.createTestAccount();
+      //  checking function progress. Gmail might not notify
+      console.log("Credentials obtained, sending message");
+      const transporter = nodemailer.createTransport({
+        host: testAccount.smtp.host,
+        port: 587,
+        // secure: testAccount.smtp.secure,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+        logger: true,
+        transactionLog: true,
+      });
 
-      console.log(mail_address);
+      let info = await transporter.sendMail({
+        from: '"FLRE Consulting" <thesamplemail@sample.com>',
+        to: "Raul Battistini <raulbattistini.3@gmail.com>", // you can contact me at this email, by the way
+        subject: `Keep yourself up to date with our company!`,
+        html: `<body
+        style="
+          background-color: black;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+            'Open Sans', 'Helvetica Neue', sans-serif;
+        "
+      >
+      <span style="color: white; font-weight: 100;"> Thanks for your subscription! You'll be receiving our updates weekly and you can opt out of our list any time. </span>
+      <span style="color: white; font-weight: 100;"> <a href="" style="text-decoration: none;"> </a> </span>
+      </body>`,
+      });
+      transporter.sendMail(info, (error, info) => {
+        if (error) {
+          console.log("Error occurred");
+          console.log(error.message);
+          return process.exit(1);
+        }
 
-      const mail = new NewsletterMail();
+        console.log("Message sent successfully!");
+        console.log(nodemailer.getTestMessageUrl(info));
 
-      const newUser = new User();
-
-      const mailService = new MailService();
-
-      const user = await userRepository.findOneBy({ email });
-
-      if (!user)
-        return res.status(404).json({
-          message: `There was no user with email ${mail_address}`,
-        });
-
-      const mailPath = resolve(__dirname, "..", "views", "emails", "mailSent.hbs");
-
-      const variables = {
-        id: "",
-        name: newUser.name,
-      };
-
-      const mailSent = await newsletterRepository.findOneBy({ id });
-
-      if (!mailSent)
-        return res.status(404).json({
-          message: `No mails sent identified by id ${id}`,
-        });
-
-      if (mailSent) {
-        variables.id = mailSent.id;
-        await mailService.sendMail(mail_address, mail.title, variables, mailPath);
-        return res.status(200).json({
-          message: `Mail info: ${mailSent}`,
-        });
-      }
-
-      await newsletterRepository.save(mailSent);
+        // only needed when using pooled connections
+        transporter.close();
+      });
+      res.status(200).json(info);
     } catch (error) {
       return next(error);
     }

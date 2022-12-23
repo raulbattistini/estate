@@ -26,7 +26,7 @@ export const Footer = () => {
 
   // 
   const sendMail = async () => {
-    const res = await api.post(`/mails/test`);
+    const res = await api.post(`/mails/newsletter`);
     console.log(res);
   };
   return (
