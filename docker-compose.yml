@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  server:
+    build:
+      dockerfile: Dockerfile
+      context: "./server"
+    depends_on:
+      - db
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    env_file: ./server/.env
+  web:
+    stdin_open: true
+    env_file: ./web/.env
+    build:
+      dockerfile: Dockerfile
+      context: ./web/
+    volumes:
+      - /app/node_modules
+      - ./web:/app
+  db:
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DATABASE=estate
+    image: postgres:15.1
+    ports:
+      - 8239:5432
+  nginx:
+    depends_on:
+      - web
+      - server
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3050:80"
