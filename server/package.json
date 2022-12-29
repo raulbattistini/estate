@@ -4,11 +4,13 @@
   "description": "Real-estate website",
   "scripts": {
     "dev": "ts-node-dev ./src/server.ts --respawn --transpile-only --ignore-watch node_modules",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node ./src/server.js --respawn --transpile-only"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Raul Battistini",
+  "license": "MIT",
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "@types/multer": "^1.4.7",

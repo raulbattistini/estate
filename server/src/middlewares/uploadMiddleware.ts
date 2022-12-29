@@ -2,7 +2,6 @@ import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import crypto from "crypto";
 import { Request } from "express";
-import { File } from "../interfaces";
 
 const fileFilter = (request: Request, file: Express.Multer.File, callback: FileFilterCallback): void => {
   if (
@@ -11,28 +10,30 @@ const fileFilter = (request: Request, file: Express.Multer.File, callback: FileF
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/pjpeg" ||
     file.mimetype === "image/svg+xml" ||
-    file.mimetype === "image/gif"
+    file.mimetype === "image/gif" ||
+    file.mimetype === "application/pdf"
   ) {
     callback(null, true);
   } else {
-    callback(
-      new Error("Image type not supported. Choose either png, jpg, jpeg, svg or gif file extensions up to 2MB."),
-      false
+    throw new Error(
+      "File type not supported. Choose either png, jpg, jpeg, svg, gif or pdf file extensions up to 2MB."
     );
   }
 };
 
-const storage = multer.diskStorage({
+export const storageMiddleware = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.resolve(__dirname, "..", "tmp", "uploads"));
+    cb(null, path.resolve(__dirname, "..", "..", "tmp", "uploads"));
   },
   filename: (req, file, cb) => {
-    crypto.randomBytes(16, (err, hash) => {
+    crypto.randomBytes(10, (err, hash) => {
       if (err) cb(err, "");
 
-      file.key = `${hash.toString("hex")}-${file.originalname}`;
+      const date = new Date().getTime();
 
-      cb(null, file.key);
+      file.fieldname = `${date}-${file.originalname}`;
+
+      cb(null, file.fieldname);
     });
   },
 });
@@ -40,7 +41,7 @@ const storage = multer.diskStorage({
 export const uploadMiddleware = {
   dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
 
-  storage: storage,
+  storage: storageMiddleware,
 
   fileFilter: fileFilter,
 
