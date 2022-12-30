@@ -4,8 +4,11 @@ Additional libraries worth mentioning being used are: React Router, TypeORM, Tai
 
 Some utilities used are Insomnia and Beekeeper.
 
-To run the project, you must run an instance of PostgreSQL database, create a database as in the project (named '`estate`'), set `.env` variables.\
+## MIT licensed
 
-Use 2 tabs of the terminal while Docker is not being used in the application and run `pnpm i` in each folder (`web` and `server`). 
+## To run the project:
+1. Set .env variables
+2. Run `docker compose up` in the `\estate\` path
 
-If you are unaware of how package managers work, do not switch between npm/ yarn and pnpm.
+### Todo
+Responsiveness
