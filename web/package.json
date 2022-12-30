@@ -35,7 +35,8 @@
     "react-spinners": "^0.13.6",
     "react-toastify": "^9.0.8",
     "uuid": "^9.0.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "vite-plugin-pwa": "0.14.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
