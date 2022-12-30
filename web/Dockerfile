@@ -6,6 +6,8 @@ COPY package.json ./
 
 COPY ./ ./
 
-RUN npm i
+RUN npm i -g pnpm
+
+RUN pnpm i
 
 CMD ["npm", "run", "dev"]

@@ -11,6 +11,8 @@ services:
       - /app/node_modules
       - ./server:/app
     env_file: ./server/.env
+    ports:
+      - "3333:3333"
   web:
     stdin_open: true
     env_file: ./web/.env
@@ -20,6 +22,8 @@ services:
     volumes:
       - /app/node_modules
       - ./web:/app
+    ports:
+      - "5173:5173"
   db:
     environment:
       - POSTGRES_PASSWORD=root
