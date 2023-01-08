@@ -21,6 +21,8 @@ import { RealtorsFlorida } from "./pages/InfoLinks/RealtorsFlorida";
 import { DMCANotice } from "./pages/InfoLinks/DMCANotice";
 import { UsersListing } from "./pages/Users/RestrictArea/UsersListing";
 import { UserPageRestricted } from "./pages/Users/RestrictArea/UserPageRestricted";
+import { GoogleCallback } from "./pages/OAuthCallback/GoogleCallback";
+import { FacebookCallback } from "./pages/OAuthCallback/FacebookCallback";
 
 export const RoutesList = () => {
   return (
@@ -30,6 +32,8 @@ export const RoutesList = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/posts/:id" element={<PostPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/auth/callback/google" element={<GoogleCallback/>}/>
+        <Route path="/auth/callback/facebook" element={<FacebookCallback/>}/>
         <Route path="/register-user" element={<RegisterUser />} />
         <Route path="/register-user-2" element={<RegisterUserSec />} />
         <Route
