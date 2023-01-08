@@ -32,11 +32,12 @@
     "react-intersection-observer": "^9.4.1",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
-    "react-spinners": "^0.13.6",
+    "react-spinners": "^0.13.7",
     "react-toastify": "^9.0.8",
+    "supertokens-web-js": "^0.3.0",
     "uuid": "^9.0.0",
-    "yup": "^0.32.11",
-    "vite-plugin-pwa": "0.14.0"
+    "vite-plugin-pwa": "0.14.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
