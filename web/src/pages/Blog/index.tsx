@@ -7,6 +7,7 @@ import { Footer } from "../../components/Footer";
 import defaultImg from "../../assets/images/default.jpg";
 import { api } from "../../services/api";
 import { IPost } from "../../interfaces";
+import { Button } from "../../components/Buttons";
 
 export const Blog = () => {
   const [postData, setPostData] = useState<IPost[]>([
@@ -63,19 +64,24 @@ export const Blog = () => {
                 return (
                   <>
                     <Link to={`/posts/${posts.post_id}`} className="userPage" target="_blank" rel="noopener noreferrer">
-                      <button
+                      <Button
                         onClick={() => {
                           getSinglePost(posts.post_id);
                         }}
+                        border=""
+                        color=""
+                        height=""
+                        radius="1rem"
+                        width="15rem"
                       >
                         <title className="flex flex-col text-lg mt-3" key={posts.post_id}>
                           {posts.title}
                         </title>
-                    <span className="mr-9 text-sm">{posts.content}</span>
+                    <span className="mr-9 text-sm" title="See more...">{posts.content.slice(0, 30)}</span>
                     <span className="flex flex-col">
                       <>Date added: {moment(posts.created_at).format("DD/MM/YYYY")}</>{" "}
                     </span>
-                      </button>
+                      </Button>
                     </Link>
                   </>
                 );
