@@ -2,7 +2,7 @@ import Multer from "multer";
 import { Readable } from "typeorm/platform/PlatformTools";
 export interface IUserAuth {
   email: string;
-  password: string;
+  password?: string;
 }
 
 export interface IUserCreate {

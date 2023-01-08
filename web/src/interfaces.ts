@@ -6,6 +6,11 @@ export interface IAuthContext {
   signin: (email: string, password: string) => Promise<boolean>;
   signout: () => void;
 }
+
+export interface IOAuthContext {
+  value: void
+}
+
 export interface IState {
   currentStep: number;
   name: string;
@@ -62,6 +67,12 @@ export interface IUserAuth {
   password: string;
   intention?: string;
   income?: string;
+}
+
+export interface IUserOAuth{
+  id: string,
+  name: string,
+  email: string
 }
 
 export interface IAuthChildren {
