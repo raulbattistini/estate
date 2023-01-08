@@ -1,18 +1,18 @@
 import React from "react";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import { RoutesList } from "./routes";
 import { RegisterProvider } from "./contexts/Register/RegisterContext";
 import { AuthProvider } from "./contexts/Auth/AuthProvider";
+import { SuperTokensProvider } from "./contexts/OAuth/SuperTokensProvider";
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="<your_client_id>">
+    <SuperTokensProvider>
       <RegisterProvider>
         <AuthProvider>
           <RoutesList />
         </AuthProvider>
       </RegisterProvider>
-    </GoogleOAuthProvider>
+    </SuperTokensProvider>
   );
 }
 

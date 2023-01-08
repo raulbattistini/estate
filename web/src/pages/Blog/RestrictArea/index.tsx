@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { useState, useEffect, useContext, useLayoutEffect } from "react";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
@@ -20,11 +20,24 @@ export const RestrictPostArea = () => {
       created_at: new Date(),
     },
   ]);
-
+  const isAdmin = () => {
+    const user = auth.user;
+    if (!user) {
+      return navigate("/login");
+    } else if (user.admin !== true) {
+      console.log(user.admin)
+    }
+    console.log(user.admin);
+  };
+  useLayoutEffect(() => {
+    isAdmin();
+  }, []);
   useEffect(() => {
     load();
+    console.log(auth.user);
   }, []);
 
+  const navigate = useNavigate();
   const load = async () => {
     const res = await api.get("/posts");
     setPostData(res.data.posts);
@@ -39,60 +52,79 @@ export const RestrictPostArea = () => {
       <Header />
       <LoggedNav />
       <div className="bg-[#21a0a0]">
-        {auth.user !== null ? (
-          <div className="text-white">
-            {/* @ts-ignore */}
-            {auth!.user!.map((userInfo: IUserAuth, key: number) => {
-              return (
-                <div>
-                  {userInfo.admin == true ? (
-                    <div>
-                      <span className="text-center text-lg flex justify-center pb-5 flex flex-col"> Administrative procedures against bad users? <br /> <Link to="/users/admin/" className="underline hover text-[#c8c8c8]">Go here</Link> </span>
-                      <span className="text-center text-lg flex justify-center pb-5"> You are elegible to update posts. See below the listing. </span>
-                      {postData?.map((posts: IPost, key) => {
-                        return (
-                          <div className="flex justify-center max-w-lg pl-8">
-                            <Link
-                              to={`/posts/admin/${posts.post_id}`}
-                              className="userPage"
-                            >
-                            
-                                <title className="flex flex-col text-lg mt-3" key={posts.post_id}>
-                                  {posts.title}
-                                </title>
-                                <span className="mr-9 text-sm">{posts.content}</span>
-                                <span className="flex flex-col">
-                                  <>Date added: {moment(posts.created_at).format("DD/MM/YYYY")}</>{" "}
-                                </span>
-                            </Link>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <>
-                      <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="dark"
-                      />
-                      <Navigate to="/welcome" />
-                    </>
-                  )}
-                </div>
-              );
-            })}
+        <div className="text-white">
+          {/* @ts-ignore */}
+          <div>
+            {!auth.user ? (
+              <>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="dark"
+                />
+                <Navigate to="/login" />
+              </>
+            ) : (
+              <div>
+                {" "}
+                {/* {auth!.user!.admin !== true ? ( */}
+                {/* <>
+                  <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                  />
+                  <Navigate to="/welcome" />
+                </> */}
+                {/* ) : ( */}
+                <>
+                  <span className="text-center text-lg flex justify-center pb-5 flex flex-col">
+                    {" "}
+                    Administrative procedures against bad users? <br />{" "}
+                    <Link to="/users/admin/" className="underline hover text-[#c8c8c8]">
+                      Go here
+                    </Link>{" "}
+                  </span>
+                  <span className="text-center text-lg flex justify-center pb-5">
+                    {" "}
+                    You are elegible to update posts. See below the listing.{" "}
+                  </span>
+                  {postData?.map((posts: IPost, key) => {
+                    return (
+                      <div className="flex justify-center max-w-lg pl-8">
+                        <Link to={`/posts/admin/${posts.post_id}`} className="userPage">
+                          <title className="flex flex-col text-lg mt-3" key={posts.post_id}>
+                            {posts.title}
+                          </title>
+                          <span className="mr-9 text-sm">{posts.content}</span>
+                          <span className="flex flex-col">
+                            <>Date added: {moment(posts.created_at).format("DD/MM/YYYY")}</>{" "}
+                          </span>
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </>
+                {/* )}{" "} */}
+              </div>
+            )}
           </div>
-        ) : (
-          ""
-        )}
+          );
+        </div>
       </div>
       <Footer />
     </div>

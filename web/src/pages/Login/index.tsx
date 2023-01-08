@@ -4,17 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import * as cheerio from "cheerio";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import FacebookLogin from "@greatsumini/react-facebook-login";
-import { GoogleLogin } from "@react-oauth/google";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { MdVisibility } from "react-icons/md";
+import { Grid } from "@mui/material";
+import { getAuthorisationURLWithQueryParamsAndSetState } from "supertokens-web-js/recipe/thirdpartyemailpassword";
+import { BsFacebook, BsGithub } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/Auth/AuthContext";
 import { loginSchema } from "../../helpers/schema";
-import { Grid } from "@mui/material";
-import { BsFacebook } from "react-icons/bs";
-
 export const Login = () => {
   // state
 
@@ -63,7 +62,37 @@ export const Login = () => {
       // navigate("/login");
     }
   };
-
+  // supertokens
+  async function googleSignInClicked() {
+    try {
+      const authUrl = await getAuthorisationURLWithQueryParamsAndSetState({
+        providerId: "google",
+        authorisationURL: "http://localhost:5173/auth/callback/google",
+      });
+      window.location.assign(authUrl);
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        toast.error(err.message);
+      } else {
+        toast.error("Oops! Something went wrong.");
+      }
+    }
+  }
+  async function facebookSignInClicked() {
+    try {
+      const authUrl = await getAuthorisationURLWithQueryParamsAndSetState({
+        providerId: "facebook",
+        authorisationURL: "http://localhost:5173/auth/callback/facebook",
+      });
+      window.location.assign(authUrl);
+    } catch (err: any) {
+      if (err.isSuperTokensGeneralError === true) {
+        toast.error(err.message);
+      } else {
+        toast.error("Oops! Something went wrong.");
+      }
+    }
+  }
   return (
     <>
       <ToastContainer />
@@ -152,55 +181,13 @@ export const Login = () => {
                         </span>
                       </>
                     )}
-                    <>
-                      <Grid container className="m-0 p-0 justify-between col-span-2">
-                        <Grid item xs={12} className="pb-4 pt-4">
-                          <span className="text-white"> Or...</span>
-                        </Grid>
-                        <Grid item xs={12} className="col-span-1">
-                          {" "}
-                          <div className="flex items-center">
-                            <BsFacebook className="text-white absolute mt-5 text-md" style={{ marginLeft: "34.5rem" }} />
-                          </div>
-                          <FacebookLogin
-                            appId="1088597931155576"
-                            style={{
-                              backgroundColor: "#4267b2",
-                              color: "#fff",
-                              fontSize: "16px",
-                              padding: "8px 30px",
-                              border: "none",
-                              borderRadius: "4px",
-                              textAlign: "end",
-                              justifySelf: "flex-end",
-                              justifyContent: "flex-end"
-                            }}
-                            onSuccess={(response) => {
-                              console.log("Login Success!", response);
-                            }}
-                            onFail={(error) => {
-                              console.log("Login Failed!", error);
-                            }}
-                            onProfileSuccess={(response) => {
-                              console.log("Get Profile Success!", response);
-                            }}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          {" "}
-                          <div className="flex justify-center mt-8">
-                          <GoogleLogin
-                            onSuccess={(credentialResponse) => {
-                              console.log(credentialResponse);
-                            }}
-                            onError={() => {
-                              console.log("Login Failed");
-                            }}
-                          />
-                          </div>
-                        </Grid>
-                      </Grid>
-                    </>
+
+                    <button
+                      type="submit"
+                      className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500"
+                    >
+                      Login
+                    </button>
                     <span className="flex flex-col text-white pt-3">
                       <Link to="/forgot-password" className="text-center text-purple-200">
                         Forgot your password?
@@ -212,12 +199,31 @@ export const Login = () => {
                         Register now
                       </Link>
                     </span>
-                    <button
-                      type="submit"
-                      className="p-3 mt-5 pl-5 pr-5 rounded-md bg-[#048865] text-white hover:bg-green-500"
-                    >
-                      Login
-                    </button>
+                    <>
+                      <div className="flex-col flex justify-between items-center">
+                        <span
+                          className="flex-col text-right bg-[#4267b2] text-white w-52 rounded-md p-2 m-3 cursor-pointer"
+                          onClick={facebookSignInClicked}
+                        >
+                          <BsFacebook className="absolute mt-1" />
+                          Login with Facebook
+                        </span>
+                        <span
+                          className="flex-col font-medium text-right bg-white text-[#3c4043] w-52 rounded-md p-2 m-3 cursor-pointer"
+                          onClick={googleSignInClicked}
+                        >
+                          <FcGoogle className="absolute mt-1" /> Login with Google
+                        </span>
+                        <span className="flex-col text-right bg-black text-white w-52 rounded-md p-2 m-3">
+                          <BsGithub className="absolute mt-1" /> Login with GitHub
+                        </span>
+                      </div>
+                      <Grid container className="m-0 p-0 justify-between col-span-2">
+                        <Grid item xs={12} className="pb-4 pt-4">
+                          <span className="text-white"> Or...</span>
+                        </Grid>
+                      </Grid>
+                    </>
                   </Form>
                 );
               }}

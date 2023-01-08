@@ -18,7 +18,7 @@ export class UserService {
       throw new Error("Try creating an account before you log in...");
     }
 
-    const comparePassword = await compare(password, user.password);
+    const comparePassword = await compare(password!, user.password);
 
     if (!comparePassword) {
       throw new Error("Password incorrect. Check your credentials and try again.");

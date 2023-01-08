@@ -6,7 +6,7 @@ export const useApi = () => ({
     return res.data;
   },
 
-  signin: async (email: string, password: string) => {
+  signin: async (email: string, password?: string) => {
     const res = await api.post("/tokens", {
       email,
       password,
