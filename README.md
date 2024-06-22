@@ -12,3 +12,4 @@ Some utilities used are Insomnia and Beekeeper.
 
 ### Todo
 Responsiveness
+Chat module
